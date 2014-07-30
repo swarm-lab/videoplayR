@@ -17,10 +17,10 @@ As of now, videoplayR can:
 * Grab any frame from a video. 
 
 #### Installation
-```videoplayR```
+`videoplayR`
 
 In R, run:
-```R
+```
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("morpionZ/videoplayR")
 ```
