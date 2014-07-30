@@ -3,67 +3,14 @@ PackratVersion: 0.4.0.4
 RVersion: 3.1.1
 Repos: CRAN=http://lib.stat.cmu.edu/R/CRAN/
 
-Package: colorspace
-Source: CRAN
-Version: 1.2-4
-Hash: b775bd08a10f968fef582304b7c3ab9c
-
-Package: dichromat
-Source: CRAN
-Version: 2.0-0
-Hash: 42be2136555fa4b6167605df56d8cd7c
-
-Package: digest
-Source: CRAN
-Version: 0.6.4
-Hash: e4bf0e79b15a352510aff0de905d31e2
-
-Package: ggplot2
-Source: CRAN
-Version: 1.0.0
-Hash: c8bff66238347472f08b6a35608539ff
-Requires: digest, gtable, plyr, proto, reshape2, scales
-
-Package: gtable
-Source: CRAN
-Version: 0.1.2
-Hash: 0cf4a2b54c02b35dec7e74a8ebed12a0
-
-Package: labeling
-Source: CRAN
-Version: 0.2
-Hash: 25f63495dfb737e67bd75fc1eb58ff2c
-
-Package: munsell
-Source: CRAN
-Version: 0.4.2
-Hash: fa8af6d040041439b249351e9d16ae9a
-Requires: colorspace
-
 Package: packrat
 Source: github
 Version: 0.4.0.4
-Hash: ce9fb1de3ed490d3f85b0cae4534a3e998db659e
 GithubRepo: packrat
 GithubUsername: rstudio
 GithubRef: master
 GithubSha1: ce9fb1de3ed490d3f85b0cae4534a3e998db659e
-
-Package: plyr
-Source: CRAN
-Version: 1.8.1
-Hash: be21bad411e628f810a92212e17b5be7
-Requires: Rcpp
-
-Package: proto
-Source: CRAN
-Version: 0.3-10
-Hash: 668a9e87cedbdc5f56c396edf1bd2648
-
-Package: RColorBrewer
-Source: CRAN
-Version: 1.0-5
-Hash: 6a849b729bec970204ca88b96906adbc
+Hash: ce9fb1de3ed490d3f85b0cae4534a3e998db659e
 
 Package: Rcpp
 Source: CRAN
@@ -75,20 +22,3 @@ Source: CRAN
 Version: 0.4.320.0
 Hash: 864c201d0a000cad6a289f091a7c0231
 Requires: Rcpp
-
-Package: reshape2
-Source: CRAN
-Version: 1.4
-Hash: b210925e978fd52ad5eb0822a353e7ce
-Requires: plyr, Rcpp, stringr
-
-Package: scales
-Source: CRAN
-Version: 0.2.4
-Hash: b8b1af97bd07818605223060386b00dd
-Requires: dichromat, labeling, munsell, plyr, RColorBrewer
-
-Package: stringr
-Source: CRAN
-Version: 0.6.2
-Hash: cdde0cfa0f52cffeaca23a11a3899779
