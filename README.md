@@ -31,7 +31,8 @@ devtools::install_github("morpionZ/videoplayR")
 ```
 
 #### Author(s)
-Simon Garnier <garnier@njit.edu>
+Simon Garnier - [@sjmgarnier](https://twitter.com/sjmgarnier) - 
+<garnier@njit.edu>
 
 #### References
 This package uses the OpenCV library to read and process video files. More 
