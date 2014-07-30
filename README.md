@@ -2,7 +2,7 @@ videoplayR
 ==========
 
 videoplayR is an R package that provide a few functions (for now) to manipulate
-video files. It requires the installation of OpenCV 2.4.x. 
+video files with R. It requires the installation of OpenCV 2.4.x. 
 
 As of now, videoplayR can:
 * Count the number of frames in a video.
