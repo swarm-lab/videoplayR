@@ -1,8 +1,8 @@
 videoplayR
 ==========
 
-videoplayR is an R package that provides a few functions (for now) to manipulate
-video files with R. It requires the installation of OpenCV 2.4.x. 
+`videoplayR` is an R package that provides a few functions (for now) to 
+manipulate video files with R. It requires the installation of OpenCV 2.4.x. 
 
 ### Package overview
 
@@ -10,16 +10,21 @@ video files with R. It requires the installation of OpenCV 2.4.x.
 This package uses the OpenCV library to provide R users with some basic 
 functions to read and manipulate video files.
 
-As of now, videoplayR can:
+As of now, `videoplayR` can:
 * Count the number of frames in a video.
 * Extract the framerate of a video. 
 * Extract the dimensions of a video. 
 * Grab any frame from a video. 
 
 #### Installation
-`videoplayR`
+`videoplayR` requires the installation of the OpenCV library (>2.4.x) to compile 
+and run. OpenCV can be installed on Linux, Mac and Windows compatible computers.
+You should be able to find the instructions to install OpenCV on your computer 
+thanks to a simple Google search (or ask me if you really can't find the 
+information).
 
-In R, run:
+Once OpenCV is installed on your computer, you can install `videoplayR` by 
+running the following commands in R:
 ```
 if (!require("devtools")) install.packages("devtools")
 devtools::install_github("morpionZ/videoplayR")
