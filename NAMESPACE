@@ -1,0 +1,3 @@
+useDynLib(videoplayR)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)

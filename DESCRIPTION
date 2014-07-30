@@ -1,0 +1,14 @@
+Package: videoplayR
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2014-07-29
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What Licence is it under ?
+Imports: Rcpp (>= 0.11.2)
+LinkingTo: Rcpp
+Imports: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2)
+Depends: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2)
+LinkingTo: Rcpp, RcppArmadillo
