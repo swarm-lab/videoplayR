@@ -9,10 +9,6 @@ getFPS <- function(source) {
     .Call('videoplayR_getFPS', PACKAGE = 'videoplayR', source)
 }
 
-rcpp_hello_world <- function() {
-    .Call('videoplayR_rcpp_hello_world', PACKAGE = 'videoplayR')
-}
-
 readFrame <- function(n, source) {
     .Call('videoplayR_readFrame', PACKAGE = 'videoplayR', n, source)
 }

@@ -6,7 +6,7 @@ Read the nth frame of a video file.
 }
 \description{
 readFrame grabs the nth frame of any video file that can be read by the OpenCV
-library.
+library (v2).
 }
 \usage{
 readFrame(n, source)
@@ -14,27 +14,25 @@ readFrame(n, source)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{n}{
-The position in the video file of the frame to grab.
+A scalar (integer) value indicating the position in the video file of the frame 
+to grab.
 }
   \item{source}{
-The location of the video file. 
+A character string indication the location of the video file. 
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+readFrame returns a 3 dimensional matrix with 3 layers. Each layer corresponds 
+to the R, G or B layer of the video frame respectively. 
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Simon Garnier <garnier@njit.edu> - @sjmgarnier
 }
 \note{
 %%  ~~further notes~~
@@ -46,16 +44,17 @@ The location of the video file.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+library(grid)
 
-## The function is currently defined as
-function (n, source) 
-{
-    .Call("videoplayR_readFrame", PACKAGE = "videoplayR", n, 
-        source)
-  }
+# Download sample video from mplayerhq
+download.file("http://samples.mplayerhq.hu/MPEG-4/turn-on-off.mp4", "test.mp4")
+
+# Read 10th frame and display it
+test <- readFrame(10, "test.mp4")
+grid.raster(test / 255, interpolate = FALSE)
+
+# Delete sample video
+file.remove("test.mp4")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

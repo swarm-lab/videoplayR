@@ -36,20 +36,6 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP videoplayR_rcpp_hello_world() {
-BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        List __result = rcpp_hello_world();
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
-END_RCPP
-}
 // readFrame
 arma::cube readFrame(int n, std::string source);
 RcppExport SEXP videoplayR_readFrame(SEXP nSEXP, SEXP sourceSEXP) {
