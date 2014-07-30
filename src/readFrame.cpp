@@ -26,9 +26,9 @@ arma::cube readFrame(int n, std::string source) {
   arma::cube reframe(frame.rows, frame.cols, 3);
   for(int i = 0; i < frame.rows; i++) {
     for(int j = 0; j < frame.cols; j++) {
-      reframe(i, j, 0) = frame.at<cv::Vec3b>(i, j)[0];
+      reframe(i, j, 0) = frame.at<cv::Vec3b>(i, j)[2];
       reframe(i, j, 1) = frame.at<cv::Vec3b>(i, j)[1];
-      reframe(i, j, 2) = frame.at<cv::Vec3b>(i, j)[2];
+      reframe(i, j, 2) = frame.at<cv::Vec3b>(i, j)[0];
     }
   }
   
