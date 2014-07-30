@@ -16,7 +16,7 @@ arma::cube readFrame(int n, std::string source) {
     throw std::range_error("The requested frame does not exist. Try with a lower frame number.");
   }
   
-  Mat frame;
+  cv::Mat frame;
   for (int i = 0; i < n - 1; i++) {
     inputVideo.grab();
   }
@@ -34,9 +34,3 @@ arma::cube readFrame(int n, std::string source) {
   
   return(reframe);
 }
-
-
-
-
-
-
