@@ -1,4 +1,11 @@
 videoplayR
 ==========
 
-videoplayR is an R package that provide a single function (for now) to read frames from video files. It requires the installation of OpenCV 2.4.x. 
+videoplayR is an R package that provide a few functions (for now) to manipulate
+video files. It requires the installation of OpenCV 2.4.x. 
+
+As of now, videoplayR can:
+* Count the number of frames in a video.
+* Extract the framerate of a video. 
+* Extract the dimensions of a video. 
+* Grab any frame from a video. 
