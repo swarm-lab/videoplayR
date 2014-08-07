@@ -10,7 +10,7 @@ using namespace Rcpp;
 arma::cube readFrame(int n, std::string source) {
   VideoCapture inputVideo(source); 
   if (!inputVideo.isOpened()) {
-    throw std::range_error("Error. Could not open the video.");
+    throw std::range_error("Could not open the video.");
   }
   if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
     throw std::range_error("The requested frame does not exist. Try with a lower frame number.");

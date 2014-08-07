@@ -10,7 +10,7 @@ using namespace Rcpp;
 int countFrames(std::string source) {
   VideoCapture inputVideo(source); 
   if (!inputVideo.isOpened()) {
-    throw std::range_error("Error. Could not open the video.");
+    throw std::range_error("Could not open the video.");
   }
   
   return(inputVideo.get(CV_CAP_PROP_FRAME_COUNT));

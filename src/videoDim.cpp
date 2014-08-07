@@ -10,7 +10,7 @@ using namespace Rcpp;
 NumericVector videoDim(std::string source) {
   VideoCapture inputVideo(source); 
   if (!inputVideo.isOpened()) {
-    throw std::range_error("Error. Could not open the video.");
+    throw std::range_error("Could not open the video.");
   }
   
   return(NumericVector::create(inputVideo.get(CV_CAP_PROP_FRAME_HEIGHT), inputVideo.get(CV_CAP_PROP_FRAME_WIDTH)));
