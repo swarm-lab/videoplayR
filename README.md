@@ -15,6 +15,7 @@ As of now, `videoplayR` can:
 * Extract the framerate of a video. 
 * Extract the dimensions of a video. 
 * Grab any frame from a video. 
+* Grab frames sequentially at high speed. 
 
 #### Installation
 `videoplayR` requires the installation of the OpenCV library (>2.4.x) to compile 
