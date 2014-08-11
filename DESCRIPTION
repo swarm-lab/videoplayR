@@ -1,8 +1,8 @@
 Package: videoplayR
 Type: Package
 Title: Functions to manipulate video files with R
-Version: 0.1
-Date: 2014-07-29
+Version: 0.1.1
+Date: 2014-08-11
 Author: Simon Garnier <garnier@njit.edu> - @sjmgarnier
 Maintainer: Simon Garnier <garnier@njit.edu>
 Description: This package uses the OpenCV library to provide R users with some basic functions to read and manipulate video files. 

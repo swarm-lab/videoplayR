@@ -1,27 +1,26 @@
-\name{getFPS}
-\alias{getFPS}
+\name{col2bw}
+\alias{col2bw}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Retrieve the framerate of a video file. 
+Convert black and white pictures to color. 
 }
 \description{
-getFPS retrieves the framerate (number of frames per second) of a video file. 
+This function converts a black and white picture (2 dimensional array) into an RGB color picture (3 dimensional array). The conversion is achieved by creating a 3 dimensional array with 3 layers filled with the black and white picture.
 }
 \usage{
-getFPS(source)
+bw2col(image)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{source}{
-A character string indicating the location of the video file. 
+  \item{image}{
+A 2 dimensional array representing a black and white image. 
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-getFPS returns a scalar value corresponding to the framerate of the video in 
-number of images/frames per second. 
+bw2col returns a 3 dimensional matrix. 
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -39,16 +38,14 @@ Simon Garnier <garnier@njit.edu> - @sjmgarnier
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(grid)
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
 
-# Download sample video from mplayerhq
-download.file("http://samples.mplayerhq.hu/MPEG-4/turn-on-off.mp4", "test.mp4")
-
-# Read 10th frame and display it
-getFPS("test.mp4")
-
-# Delete sample video
-file.remove("test.mp4")
+## The function is currently defined as
+function (x) 
+{
+  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
