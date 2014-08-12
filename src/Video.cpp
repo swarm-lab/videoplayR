@@ -10,6 +10,8 @@ class Video {
   public:
     Video(std::string filename);
     bool check;
+    int current_frame();
+    void set_current_frame(int n);
     arma::cube next_frame();
     arma::cube get_frame(int n);
     int length();
@@ -29,6 +31,14 @@ Video::Video(std::string filename) {
   } else {
     check = true;
   }
+}
+
+int Video::current_frame() {
+  return(inputVideo.get(CV_CAP_PROP_POS_FRAMES));
+}
+
+void Video::set_current_frame(int n) {
+  inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
 }
 
 arma::cube Video::next_frame() {
@@ -87,6 +97,8 @@ RCPP_MODULE(Video) {
   class_<Video>("Video")
     .constructor<std::string>()
     .field_readonly("check", &Video::check, "If true, the video has been imported properly and can be read.")
+    .method("current_frame", &Video::current_frame, "Returns position of the current video frame.")
+    .method("set_current_frame", &Video::set_current_frame, "Position the reader at an arbitrary frame in the video.")
     .method("next_frame", &Video::next_frame, "Grabs next video frame.")
     .method("get_frame", &Video::get_frame, "Grabs a specific video frame.")
     .method("length", &Video::length, "Returns total number of frames in the video.")
