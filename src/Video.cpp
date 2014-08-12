@@ -10,7 +10,7 @@ class Video {
   public:
     Video(std::string filename);
     bool check;
-    int current_frame();
+    double current_frame();
     void set_current_frame(int n);
     arma::cube next_frame();
     arma::cube get_frame(int n);
@@ -33,7 +33,7 @@ Video::Video(std::string filename) {
   }
 }
 
-int Video::current_frame() {
+double Video::current_frame() {
   return(inputVideo.get(CV_CAP_PROP_POS_FRAMES));
 }
 
