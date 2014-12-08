@@ -7,8 +7,6 @@ Author: Simon Garnier <garnier@njit.edu> - @sjmgarnier
 Maintainer: Simon Garnier <garnier@njit.edu>
 Description: This package uses the OpenCV library to provide R users with some basic functions to read and manipulate video files. 
 License: GPL-3
-Imports: Rcpp (>= 0.11.2)
-LinkingTo: Rcpp
 Imports: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2)
 Depends: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2)
 LinkingTo: Rcpp, RcppArmadillo
