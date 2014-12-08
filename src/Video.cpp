@@ -17,6 +17,7 @@ class Video {
     int length();
     int fps();
     NumericVector dim();
+    void show_frame(int n);
     
   protected:
     VideoCapture inputVideo;
@@ -93,6 +94,22 @@ NumericVector Video::dim() {
   return(NumericVector::create(inputVideo.get(CV_CAP_PROP_FRAME_HEIGHT), inputVideo.get(CV_CAP_PROP_FRAME_WIDTH)));
 }
 
+void Video::show_frame(int n) {
+  if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+    throw std::range_error("The requested frame does not exist. Try with a lower frame number.");
+  }
+  
+  inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
+  
+  inputVideo >> frame;
+  
+  cvNamedWindow("Frame", CV_WINDOW_AUTOSIZE);
+  
+  imshow("Frame", frame);
+  
+  waitKey(0);
+}
+
 RCPP_MODULE(Video) {  
   class_<Video>("Video")
     .constructor<std::string>()
@@ -104,6 +121,7 @@ RCPP_MODULE(Video) {
     .method("length", &Video::length, "Returns total number of frames in the video.")
     .method("fps", &Video::fps, "Returns the framerate of the video.")
     .method("dim", &Video::dim, "Returns the dimensions in pixels of the video.")
+    .method("show_frame", &Video::show_frame, "Display a specific video frame.")
   ;
 }
 
