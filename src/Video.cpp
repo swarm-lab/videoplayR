@@ -18,10 +18,14 @@ class Video {
     int fps();
     NumericVector dim();
     void show_frame(int n);
+    arma::mat ginput(int n, int m);
     
   protected:
     VideoCapture inputVideo;
     cv::Mat frame;
+    arma::cube frame_to_R();
+    void next_frame_cv();
+    void get_frame_cv(int n);
 };
 
 Video::Video(std::string filename) {
@@ -42,13 +46,7 @@ void Video::set_current_frame(int n) {
   inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
 }
 
-arma::cube Video::next_frame() {
-  if (inputVideo.get(CV_CAP_PROP_POS_FRAMES) == inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
-    Rcout << "Warning. This is the last frame of the video. Calling this function again will loop back to the first frame." << "\n";
-  }
-  
-  inputVideo >> frame;
-  
+arma::cube Video::frame_to_R() {
   arma::cube reframe(frame.rows, frame.cols, 3);
   for(int i = 0; i < frame.rows; i++) {
     for(int j = 0; j < frame.cols; j++) {
@@ -61,25 +59,32 @@ arma::cube Video::next_frame() {
   return(reframe);
 }
 
-arma::cube Video::get_frame(int n) {
-  if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+void Video::next_frame_cv() {
+  if (inputVideo.get(CV_CAP_PROP_POS_FRAMES) == inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+    Rcout << "Warning. This is the last frame of the video. Calling this function again will loop back to the first frame." << "\n";
+  }
+  
+  inputVideo >> frame;
+}
+
+arma::cube Video::next_frame() {
+  next_frame_cv();
+  return(frame_to_R());
+}
+
+void Video::get_frame_cv(int n) {
+   if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
     throw std::range_error("The requested frame does not exist. Try with a lower frame number.");
   }
   
   inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
   
   inputVideo >> frame;
-  
-  arma::cube reframe(frame.rows, frame.cols, 3);
-  for(int i = 0; i < frame.rows; i++) {
-    for(int j = 0; j < frame.cols; j++) {
-      reframe(i, j, 0) = frame.at<cv::Vec3b>(i, j)[2];
-      reframe(i, j, 1) = frame.at<cv::Vec3b>(i, j)[1];
-      reframe(i, j, 2) = frame.at<cv::Vec3b>(i, j)[0];
-    }
-  }
-  
-  return(reframe);
+}
+
+arma::cube Video::get_frame(int n) {
+  get_frame_cv(n);
+  return(frame_to_R());
 }
 
 int Video::length() {
@@ -95,19 +100,60 @@ NumericVector Video::dim() {
 }
 
 void Video::show_frame(int n) {
-  if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
-    throw std::range_error("The requested frame does not exist. Try with a lower frame number.");
-  }
+  get_frame_cv(n);
   
-  inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
-  
-  inputVideo >> frame;
-  
-  cvNamedWindow("Frame", CV_WINDOW_AUTOSIZE);
-  
+  namedWindow("Frame", CV_WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_NORMAL);
   imshow("Frame", frame);
   
+  Rcout << "Hit any key to close the display." << "\n";
+  
   waitKey(0);
+  
+  destroyWindow("Frame");
+}
+
+void ginput_handler(int event, int x, int y, int flags, void *ptr) {
+  if (event == EVENT_LBUTTONDOWN) {
+    arma::mat *xy = (arma::mat*) ptr;
+    
+    for (int i=0; i < xy->n_rows; i++) {
+      if (xy->at(i, 0) == -1) {
+        xy->at(i, 0) = x;
+        xy->at(i, 1) = y;
+        break;
+      }
+    }
+  }
+}
+
+arma::mat Video::ginput(int n, int m) {
+  get_frame_cv(n);
+  
+  arma::mat xy = arma::mat(m, 2);
+  xy.fill(-1);
+  
+  int counter = 0;
+  Point p;
+  
+  namedWindow("Frame", WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_NORMAL);
+  setMouseCallback("Frame", ginput_handler, &xy);
+  imshow("Frame", frame);
+  
+  while (counter < m) {
+    if (xy(counter, 1) > -1) {
+      p.x = xy(counter, 0);
+      p.y = xy(counter, 1);
+      cv::circle(frame, p, 4, Scalar(0, 0, 255), -1);
+      imshow("Frame", frame);
+      counter += 1;
+    }
+    
+    waitKey(10);
+  }
+  
+  destroyWindow("Frame");
+  
+  return(xy);
 }
 
 RCPP_MODULE(Video) {  
@@ -122,6 +168,7 @@ RCPP_MODULE(Video) {
     .method("fps", &Video::fps, "Returns the framerate of the video.")
     .method("dim", &Video::dim, "Returns the dimensions in pixels of the video.")
     .method("show_frame", &Video::show_frame, "Display a specific video frame.")
+    .method("ginput", &Video::ginput, "Display a specific video frame.")
   ;
 }
 
