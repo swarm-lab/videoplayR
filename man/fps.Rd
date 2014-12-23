@@ -27,7 +27,7 @@ number of images/frames per second.
 %% ~put references to the literature/web site here ~
 }
 \author{
-Simon Garnier <garnier@njit.edu> - @sjmgarnier
+Simon Garnier <garnier@njit.edu> - \href{http://twitter.com/sjmgarnier}{@sjmgarnier}
 }
 \note{
 %%  ~~further notes~~

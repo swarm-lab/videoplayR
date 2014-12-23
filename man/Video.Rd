@@ -29,6 +29,9 @@ A Video object comes with a set of methods to grab frames and information from a
   
 Note that wrapper functions are provided for each of these methods: \code{\link{dim_video}}, \code{\link{length_video}}, \code{\link{fps}}, \code{\link{next_frame}}, \code{\link{get_frame}}. See their respective documentation for more information about the usage of the Video methods. 
 }
+\author{
+Simon Garnier <garnier@njit.edu> - \href{http://twitter.com/sjmgarnier}{@sjmgarnier}
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }

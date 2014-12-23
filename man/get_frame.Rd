@@ -24,14 +24,14 @@ A \code{\link{Video}} object.
 In a \code{\link{Video}} object, frames are read sequentially because of the way decompression algorithms work. This method is the faster way to grab a single frame from the video. However it is not the most effecient way to grab frames in a sequential order (e.g., within a 'for' loop). Use the \code{\link{next_frame}} function instead.
 }
 \value{
-get_frame returns a 3 dimensional matrix with 3 layers. Each layer corresponds 
+\code{get_frame} returns a 3 dimensional matrix with 3 layers. Each layer corresponds 
 to the R, G or B layer of the video frame respectively. 
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-Simon Garnier <garnier@njit.edu> - @sjmgarnier
+Simon Garnier <garnier@njit.edu> - \href{http://twitter.com/sjmgarnier}{@sjmgarnier}
 }
 \note{
 %%  ~~further notes~~

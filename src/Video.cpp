@@ -19,6 +19,7 @@ class Video {
     NumericVector dim();
     void show_frame(int n);
     arma::mat ginput(int n, int m);
+    int test(int argc, char *argv[]);
     
   protected:
     VideoCapture inputVideo;
@@ -112,50 +113,6 @@ void Video::show_frame(int n) {
   destroyWindow("Frame");
 }
 
-void ginput_handler(int event, int x, int y, int flags, void *ptr) {
-  if (event == EVENT_LBUTTONDOWN) {
-    arma::mat *xy = (arma::mat*) ptr;
-    
-    for (int i=0; i < xy->n_rows; i++) {
-      if (xy->at(i, 0) == -1) {
-        xy->at(i, 0) = x;
-        xy->at(i, 1) = y;
-        break;
-      }
-    }
-  }
-}
-
-arma::mat Video::ginput(int n, int m) {
-  get_frame_cv(n);
-  
-  arma::mat xy = arma::mat(m, 2);
-  xy.fill(-1);
-  
-  int counter = 0;
-  Point p;
-  
-  namedWindow("Frame", WINDOW_NORMAL | CV_WINDOW_KEEPRATIO | CV_GUI_NORMAL);
-  setMouseCallback("Frame", ginput_handler, &xy);
-  imshow("Frame", frame);
-  
-  while (counter < m) {
-    if (xy(counter, 1) > -1) {
-      p.x = xy(counter, 0);
-      p.y = xy(counter, 1);
-      cv::circle(frame, p, 4, Scalar(0, 0, 255), -1);
-      imshow("Frame", frame);
-      counter += 1;
-    }
-    
-    waitKey(10);
-  }
-  
-  destroyWindow("Frame");
-  
-  return(xy);
-}
-
 RCPP_MODULE(Video) {  
   class_<Video>("Video")
     .constructor<std::string>()
@@ -168,7 +125,6 @@ RCPP_MODULE(Video) {
     .method("fps", &Video::fps, "Returns the framerate of the video.")
     .method("dim", &Video::dim, "Returns the dimensions in pixels of the video.")
     .method("show_frame", &Video::show_frame, "Display a specific video frame.")
-    .method("ginput", &Video::ginput, "Display a specific video frame.")
   ;
 }
 
