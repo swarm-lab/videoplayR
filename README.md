@@ -26,9 +26,10 @@ information).
 
 Once OpenCV is installed on your computer, you can install `videoplayR` by 
 running the following commands in R:
-```
+
+```{r}
 if (!require("devtools")) install.packages("devtools")
-devtools::install_github("sjmgarnier/videoplayR")
+devtools::install_github("swarm-lab/videoplayR")
 ```
 
 #### Author(s)
