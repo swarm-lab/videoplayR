@@ -1,5 +1,5 @@
 improfile <- function(img, start, end) {
-  br <- bresenham_line(start[1], start[2], 0, end[1], end[2], 0, 1)
+  br <- bresenham_line(start[1], start[2], 0, end[1], end[2], 0)
   
   if (length(dim(img)) == 2) {
     data.frame(x = br[, 1], y = br[, 2], 
