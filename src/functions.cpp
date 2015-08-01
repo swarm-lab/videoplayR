@@ -19,13 +19,13 @@ double x2, double y2, double z2) {
   
   double delta = 1;
   double x_inc = delta * sign(dx);
-  double l = abs(dx) / delta;
+  double l = std::abs(dx) / delta;
   
   double y_inc = delta * sign(dy);
-  double m = abs(dy) / delta;
+  double m = std::abs(dy) / delta;
   
   double z_inc = delta * sign(dz);
-  double n = abs(dz) / delta;
+  double n = std::abs(dz) / delta;
   
   double dx2 = 2 * l;
   double dy2 = 2 * m;

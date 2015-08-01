@@ -1,3 +1,0 @@
-PKG_LIBS = -L$(OPENCV_DIR)/build/x64/vc12/lib/
-PKG_CFLAGS = -I$(OPENCV_DIR)/build/include/opencv -I$(OPENCV_DIR)/build/include 
-PKG_CXXFLAGS = -I$(OPENCV_DIR)/build/include/opencv -I$(OPENCV_DIR)/build/include `Rscript -e 'Rcpp:::CxxFlags()'`
