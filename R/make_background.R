@@ -15,7 +15,7 @@ make_background_col <- function(video, n = 10, type = "mean") {
     stop("n should be smaller than the total number of frames in the video.")
   }
   
-  frames <- round(seq.int(1, video$length(), length.out = n))
+  frames <- round(seq.int(1, video$length() - 1, length.out = n))
   
   if (type == "mean") {
     
@@ -84,7 +84,7 @@ make_background_bw <- function(video, n = 10, type = "mean") {
     stop("n should be smaller than the total number of frames in the video.")
   }
   
-  frames <- round(seq.int(1, video$length(), length.out = n))
+  frames <- round(seq.int(1, video$length() - 1, length.out = n))
   
   if (type == "mean") {
     
