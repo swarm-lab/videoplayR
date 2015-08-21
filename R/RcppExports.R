@@ -5,3 +5,7 @@ bresenham_line <- function(x1, y1, z1, x2, y2, z2) {
     .Call('videoplayR_bresenham_line', PACKAGE = 'videoplayR', x1, y1, z1, x2, y2, z2)
 }
 
+load_image_cv <- function(filename) {
+    .Call('videoplayR_load_image_cv', PACKAGE = 'videoplayR', filename)
+}
+

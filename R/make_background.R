@@ -2,7 +2,7 @@ make_background <- function(video, n = 10, type = "mean", color = FALSE) {
   if (color) {
     make_background_col(video = video, n = n, type = type)
   } else {
-    make_background_bw(video = video, n = n, type = type)
+    make_background_gray(video = video, n = n, type = type)
   }
 }
 
@@ -75,7 +75,7 @@ make_background_col <- function(video, n = 10, type = "mean") {
   }  
 }
 
-make_background_bw <- function(video, n = 10, type = "mean") {
+make_background_gray <- function(video, n = 10, type = "mean") {
   if (!video$check) {
     stop("This is not a Video object.")
   } 
@@ -93,7 +93,7 @@ make_background_bw <- function(video, n = 10, type = "mean") {
     print("Loading images:")
     pb <- pbapply::startpb(0, n - 1)
     for (i in 1:length(frames)) {
-      mat <- mat + col2bw(video$get_frame(frames[i]))
+      mat <- mat + col2gray(video$get_frame(frames[i]))
       pbapply::setpb(pb, i)
     }
     pbapply::closepb(pb)
@@ -112,7 +112,7 @@ make_background_bw <- function(video, n = 10, type = "mean") {
     print("Loading images:")
     pb <- pbapply::startpb(0, n - 1)
     for (i in 1:length(frames)) {
-      img[, , i] <- col2bw(video$get_frame(frames[i]))
+      img[, , i] <- col2gray(video$get_frame(frames[i]))
       pbapply::setpb(pb, i)
     }
     pbapply::closepb(pb)

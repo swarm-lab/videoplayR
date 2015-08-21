@@ -1,6 +1,8 @@
 thresholding <- function(image, threshold = 75) {
-  flat <- image[, , 1] + image[, , 2] + image[, , 2]
-  flat[flat < threshold] <- 0
-  flat[flat >= threshold] <- 1
-  flat
+  if (length(dim(image)) == 3) {
+    image <- col2gray(image)
+  }
+  image[image < threshold] <- 0
+  image[image >= threshold] <- 1
+  image
 }

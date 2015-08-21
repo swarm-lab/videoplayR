@@ -1,8 +1,6 @@
-blob_properties <- function(blob, time) {
-  data.frame(time = time,
-             id = unique(blob$group),
-             x = aggregate(col ~ group, data = blob, FUN = mean)[, 2],
-             y = aggregate(row ~ group, data = blob, FUN = mean)[, 2],
-             size = aggregate(col ~ group, data = blob, FUN = length)[, 2])
+blob_properties <- function(blob) {
+  dplyr::group_by(blob, id) %>%
+    dplyr::summarize(x = mean(x),
+                     y = mean(y), 
+                     size = length(id)) 
 }
-

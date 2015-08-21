@@ -18,13 +18,11 @@ class Video {
     int fps();
     NumericVector dim();
     void show_frame(int n);
-    arma::mat ginput(int n, int m);
-    int test(int argc, char *argv[]);
-    
+
   protected:
     VideoCapture inputVideo;
-    cv::Mat frame;
     arma::cube frame_to_R();
+    cv::Mat frame;
     void next_frame_cv();
     void get_frame_cv(int n);
 };
@@ -127,4 +125,3 @@ RCPP_MODULE(Video) {
     .method("show_frame", &Video::show_frame, "Display a specific video frame.")
   ;
 }
-

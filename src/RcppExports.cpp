@@ -22,3 +22,14 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// load_image_cv
+arma::cube load_image_cv(std::string filename);
+RcppExport SEXP videoplayR_load_image_cv(SEXP filenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    __result = Rcpp::wrap(load_image_cv(filename));
+    return __result;
+END_RCPP
+}

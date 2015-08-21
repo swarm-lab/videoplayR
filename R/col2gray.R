@@ -1,4 +1,4 @@
-col2bw <- function(image, r = 1, g = 1, b = 1) {
+col2gray <- function(image, r = 1, g = 1, b = 1) {
   if (length(dim(image)) != 3 & dim(image)[3] != 3) {
     stop("This is not a color image.")
   }
