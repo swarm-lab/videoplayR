@@ -7,29 +7,29 @@ using namespace cv;
 using namespace Rcpp;
 
 class Video {
-  public:
-    Video(std::string filename);
-    bool check;
-    double current_frame();
-    void set_current_frame(int n);
-    arma::cube next_frame();
-    arma::cube get_frame(int n);
-    int length();
-    int fps();
-    NumericVector dim();
-    void show_frame(int n);
-
-  protected:
-    VideoCapture inputVideo;
-    arma::cube frame_to_R();
-    cv::Mat frame;
-    void next_frame_cv();
-    void get_frame_cv(int n);
+public:
+  Video(std::string filename);
+  bool check;
+  double current_frame();
+  void set_current_frame(int n);
+  arma::cube next_frame();
+  arma::cube get_frame(int n);
+  int length();
+  int fps();
+  NumericVector dim();
+  void show_frame(int n);
+  
+protected:
+  VideoCapture inputVideo;
+  arma::cube frame_to_R();
+  cv::Mat frame;
+  void next_frame_cv();
+  void get_frame_cv(int n);
 };
 
 Video::Video(std::string filename) {
   inputVideo.open(filename);
-    
+  
   if (!inputVideo.isOpened()) {
     throw std::range_error("Could not open the video.");
   } else {
@@ -72,7 +72,7 @@ arma::cube Video::next_frame() {
 }
 
 void Video::get_frame_cv(int n) {
-   if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
+  if (n > inputVideo.get(CV_CAP_PROP_FRAME_COUNT)) {
     throw std::range_error("The requested frame does not exist. Try with a lower frame number.");
   }
   
@@ -113,15 +113,15 @@ void Video::show_frame(int n) {
 
 RCPP_MODULE(Video) {  
   class_<Video>("Video")
-    .constructor<std::string>()
-    .field_readonly("check", &Video::check, "If true, the video has been imported properly and can be read.")
-    .method("current_frame", &Video::current_frame, "Returns position of the current video frame.")
-    .method("set_current_frame", &Video::set_current_frame, "Position the reader at an arbitrary frame in the video.")
-    .method("next_frame", &Video::next_frame, "Grabs next video frame.")
-    .method("get_frame", &Video::get_frame, "Grabs a specific video frame.")
-    .method("length", &Video::length, "Returns total number of frames in the video.")
-    .method("fps", &Video::fps, "Returns the framerate of the video.")
-    .method("dim", &Video::dim, "Returns the dimensions in pixels of the video.")
-    .method("show_frame", &Video::show_frame, "Display a specific video frame.")
+  .constructor<std::string>()
+  .field_readonly("check", &Video::check, "If true, the video has been imported properly and can be read.")
+  .method("current_frame", &Video::current_frame, "Returns position of the current video frame.")
+  .method("set_current_frame", &Video::set_current_frame, "Position the reader at an arbitrary frame in the video.")
+  .method("next_frame", &Video::next_frame, "Grabs next video frame.")
+  .method("get_frame", &Video::get_frame, "Grabs a specific video frame.")
+  .method("length", &Video::length, "Returns total number of frames in the video.")
+  .method("fps", &Video::fps, "Returns the framerate of the video.")
+  .method("dim", &Video::dim, "Returns the dimensions in pixels of the video.")
+  .method("show_frame", &Video::show_frame, "Display a specific video frame.")
   ;
 }
