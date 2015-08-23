@@ -10,9 +10,9 @@ using namespace Rcpp;
 arma::cube load_image_cv(std::string filename) {
   cv::Mat image_cv = imread(filename);
 
-//   if (!image_cv.data) {
-//     throw std::range_error("Could not open the image file.");
-//   }
+  if (!image_cv.data) {
+    throw std::range_error("Could not open the image file.");
+  }
   
   arma::cube image(image_cv.rows, image_cv.cols, 3);
   for(int i = 0; i < image_cv.rows; i++) {
@@ -25,3 +25,11 @@ arma::cube load_image_cv(std::string filename) {
   
   return(image);
 }
+
+
+
+
+
+
+
+
