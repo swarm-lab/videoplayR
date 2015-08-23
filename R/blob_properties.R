@@ -1,6 +1,11 @@
 blob_properties <- function(blob) {
-  dplyr::group_by(blob, id) %>%
+  a <- dplyr::group_by(blob, id) %>%
     dplyr::summarize(x = mean(x),
                      y = mean(y), 
-                     size = length(id)) 
+                     area = length(id))
+  
+  b <- dplyr::group_by(blob, id) %>%
+    dplyr::do(ellipse(.$x, .$y))
+  
+  merge(a, b)
 }
