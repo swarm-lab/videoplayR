@@ -1,6 +1,8 @@
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
 
+using namespace Rcpp;
+
 template <typename T> int sign(T val) {
   return (T(0) < val) - (val < T(0));
 }
@@ -111,4 +113,34 @@ double x2, double y2, double z2) {
   Mat(ii, 2) = vertex(2);
   
   return(Mat);
+}
+
+// [[Rcpp::export]]
+DataFrame ellipse(arma::vec x, arma::vec y) {
+  arma::mat M(x.n_elem, 2); 
+  M.col(0) = x;
+  M.col(1) = y;
+  
+  double xC = arma::mean(x);
+  double yC = arma::mean(y);
+  
+  arma::mat covMat = cov(M);
+  
+  arma::vec eigval;
+  arma::mat eigvec;
+  arma::eig_sym(eigval, eigvec, covMat);
+  arma::uvec eigidx = arma::sort_index(eigval);
+    
+  double alpha = atan(eigvec(1, 1) / eigvec(0, 1));
+  
+  double a, b;
+  if (eigidx(0) == 0) {
+    a = sqrt(2 * eigval(1) * R::qf(0.99, 2, x.n_elem - 1, 1, 0));
+    b = sqrt(2 * eigval(0) * R::qf(0.99, 2, x.n_elem - 1, 1, 0));
+  } else {
+    a = sqrt(2 * eigval(0) * R::qf(0.99, 2, x.n_elem - 1, 1, 0));
+    b = sqrt(2 * eigval(1) * R::qf(0.99, 2, x.n_elem - 1, 1, 0));
+  }
+  
+  return DataFrame::create(_["xC"] = xC, _["yC"] = yC, _["alpha"] = alpha, _["a"] = a, _["b"] = b);
 }

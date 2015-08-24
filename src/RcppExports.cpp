@@ -6,6 +6,17 @@
 
 using namespace Rcpp;
 
+// load_image_cv
+arma::cube load_image_cv(std::string filename);
+RcppExport SEXP videoplayR_load_image_cv(SEXP filenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
+    __result = Rcpp::wrap(load_image_cv(filename));
+    return __result;
+END_RCPP
+}
 // bresenham_line
 arma::umat bresenham_line(double x1, double y1, double z1, double x2, double y2, double z2);
 RcppExport SEXP videoplayR_bresenham_line(SEXP x1SEXP, SEXP y1SEXP, SEXP z1SEXP, SEXP x2SEXP, SEXP y2SEXP, SEXP z2SEXP) {
@@ -22,14 +33,15 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
-// load_image_cv
-arma::cube load_image_cv(std::string filename);
-RcppExport SEXP videoplayR_load_image_cv(SEXP filenameSEXP) {
+// ellipse
+DataFrame ellipse(arma::vec x, arma::vec y);
+RcppExport SEXP videoplayR_ellipse(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    __result = Rcpp::wrap(load_image_cv(filename));
+    Rcpp::traits::input_parameter< arma::vec >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type y(ySEXP);
+    __result = Rcpp::wrap(ellipse(x, y));
     return __result;
 END_RCPP
 }
