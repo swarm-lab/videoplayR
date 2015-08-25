@@ -5,7 +5,7 @@ blob_properties <- function(blob) {
                      area = length(id))
   
   b <- dplyr::group_by(blob, id) %>%
-    dplyr::do(ellipse(.$x, .$y))
-  
+    dplyr::do(as.data.frame(as.list(ellipse(.$x, .$y))))
+    
   merge(a, b)
 }

@@ -34,7 +34,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // ellipse
-DataFrame ellipse(arma::vec x, arma::vec y);
+NumericVector ellipse(arma::vec x, arma::vec y);
 RcppExport SEXP videoplayR_ellipse(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;

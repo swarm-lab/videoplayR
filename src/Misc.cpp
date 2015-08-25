@@ -116,7 +116,7 @@ double x2, double y2, double z2) {
 }
 
 // [[Rcpp::export]]
-DataFrame ellipse(arma::vec x, arma::vec y) {
+NumericVector ellipse(arma::vec x, arma::vec y) {
   arma::mat M(x.n_elem, 2); 
   M.col(0) = x;
   M.col(1) = y;
@@ -142,5 +142,8 @@ DataFrame ellipse(arma::vec x, arma::vec y) {
     b = sqrt(2 * eigval(1) * R::qf(0.99, 2, x.n_elem - 1, 1, 0));
   }
   
-  return DataFrame::create(_["xC"] = xC, _["yC"] = yC, _["alpha"] = alpha, _["a"] = a, _["b"] = b);
+  return NumericVector::create(_["xC"] = xC, _["yC"] = yC, _["alpha"] = alpha, _["a"] = a, _["b"] = b);
 }
+
+
+
