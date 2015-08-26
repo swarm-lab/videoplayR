@@ -1,6 +1,9 @@
-next_frame <- function(video) {
+next_frame <- function(video, color = FALSE) {
   if (video$check) {
-    video$next_frame()
+    switch((!color) + 1,
+           video$next_frame_color(),
+           video$next_frame_gray())
+    
   } else {
     stop("This is not a Video object.")
   }

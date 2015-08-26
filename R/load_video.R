@@ -1,4 +1,4 @@
 load_video <- function(filename) {
-  mod <- Module("Video", PACKAGE = "videoplayR")
+  mod <- Module("vp", PACKAGE = "videoplayR")
   new(mod$Video, normalizePath(filename))
 }
