@@ -10,3 +10,5 @@ packrat/lib*/
 test.mp4
 videoplayR.so
 test.R
+tokeep
+*.o
