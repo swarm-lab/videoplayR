@@ -19,15 +19,15 @@ RCPP_MODULE(vp) {
     .field_readonly("dim", &vpVideo::dim, "Returns the dimensions in pixels of the video.")
   ;
   
-  Rcpp::function("_readImg", &_readImg, Rcpp::List::create(Rcpp::_["filename"]), "Doc.");
-  Rcpp::function("_writeImg", &_writeImg, Rcpp::List::create(Rcpp::_["filename"], Rcpp::_["image"]), "Doc.");
-  Rcpp::function("_readVid", &_readVid, Rcpp::List::create(Rcpp::_["filename"]), "Doc.");
-  Rcpp::function("getFrame", &getFrame, "Doc.");
-  Rcpp::function("_img2r", &_img2r, "Converts image to R matrix or array.");
-  Rcpp::function("r2img", &r2img, Rcpp::List::create(Rcpp::_["array"], Rcpp::_["numeric"] = false), "Doc.");
-  Rcpp::function("ddd2d", &ddd2d, "Doc.");
-  Rcpp::function("d2ddd", &d2ddd, "Doc.");
-  Rcpp::function("thresholding", &thresholding, "Doc.");
-  Rcpp::function("blend", &blend, "Doc.");
-  Rcpp::function("blobDetector", &blobDetector, "Doc.");
+  Rcpp::function("_readImg", &_readImg, Rcpp::List::create(Rcpp::_["filename"]), "Load image file in memory.");
+  Rcpp::function("_writeImg", &_writeImg, Rcpp::List::create(Rcpp::_["filename"], Rcpp::_["image"]), "Save image object to file.");
+  Rcpp::function("_readVid", &_readVid, Rcpp::List::create(Rcpp::_["filename"]), "Load video file in memory.");
+  Rcpp::function("getFrame", &getFrame, Rcpp::List::create(Rcpp::_["video"], Rcpp::_["frame"]), "Grab a specific frame from a video.");
+  Rcpp::function("_img2r", &_img2r, Rcpp::List::create(Rcpp::_["image"]), "Convert a vpImage object to a matrix or an array.");
+  Rcpp::function("r2img", &r2img, Rcpp::List::create(Rcpp::_["array"], Rcpp::_["numeric"] = false), "Convert a matrix or an array to a vpImage object.");
+  Rcpp::function("ddd2d", &ddd2d, Rcpp::List::create(Rcpp::_["image"]), "Flatten a 3-channels image to 1 channel.");
+  Rcpp::function("d2ddd", &d2ddd, Rcpp::List::create(Rcpp::_["image"]), "Expand a 1-channel image to 3 channels.");
+  Rcpp::function("thresholding", &thresholding, Rcpp::List::create(Rcpp::_["image"], Rcpp::_["thres"], Rcpp::_["type"]), "Convert image to binary image .");
+  Rcpp::function("blend", &blend, Rcpp::List::create(Rcpp::_["image1"], Rcpp::_["image2"], Rcpp::_["operation"]), "Element-wise operations on image objects .");
+  Rcpp::function("blobDetector", &blobDetector, Rcpp::List::create(Rcpp::_["image"]), "Find blobs in binary image.");
 }

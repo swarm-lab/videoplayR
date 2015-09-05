@@ -1,6 +1,6 @@
-SEXP ddd2d(SEXP img) {
+SEXP ddd2d(SEXP image) {
   std::string rtypename("Rcpp_vpImage");
-  Rcpp::S4 s4obj(img);
+  Rcpp::S4 s4obj(image);
   
   if (!s4obj.is(rtypename.c_str())) {
     Rf_error((std::string("object is not of the type ")+rtypename).c_str());
@@ -22,9 +22,9 @@ SEXP ddd2d(SEXP img) {
   }
 }
 
-SEXP d2ddd(SEXP img) {
+SEXP d2ddd(SEXP image) {
   std::string rtypename("Rcpp_vpImage");
-  Rcpp::S4 s4obj(img);
+  Rcpp::S4 s4obj(image);
   
   if (!s4obj.is(rtypename.c_str())) {
     Rf_error((std::string("object is not of the type ")+rtypename).c_str());
@@ -46,9 +46,9 @@ SEXP d2ddd(SEXP img) {
   }
 }
 
-SEXP thresholding(SEXP img, double thres, std::string type) {
+SEXP thresholding(SEXP image, double thres, std::string type) {
   std::string rtypename("Rcpp_vpImage");
-  Rcpp::S4 s4obj(img);
+  Rcpp::S4 s4obj(image);
   
   if (!s4obj.is(rtypename.c_str())) {
     Rf_error((std::string("object is not of the type ")+rtypename).c_str());
@@ -80,10 +80,10 @@ SEXP thresholding(SEXP img, double thres, std::string type) {
   return maker (typeid(vpImage).name(), ptr);
 }
 
-SEXP blend(SEXP img1, SEXP img2, std::string operation) {
+SEXP blend(SEXP image1, SEXP image2, std::string operation) {
   std::string rtypename("Rcpp_vpImage");
-  Rcpp::S4 s4obj1(img1);
-  Rcpp::S4 s4obj2(img2);
+  Rcpp::S4 s4obj1(image1);
+  Rcpp::S4 s4obj2(image2);
   
   if (!s4obj1.is(rtypename.c_str()) || !s4obj2.is(rtypename.c_str())) {
     Rf_error((std::string("object is not of the type ")+rtypename).c_str());
@@ -147,9 +147,9 @@ Rcpp::NumericVector ellipse(std::vector<cv::Point> points) {
                                      Rcpp::_["alpha"] = alpha, Rcpp::_["a"] = a, Rcpp::_["b"] = b);
 }
 
-Rcpp::DataFrame blobDetector(SEXP img) {
+Rcpp::DataFrame blobDetector(SEXP image) {
   std::string rtypename("Rcpp_vpImage");
-  Rcpp::S4 s4obj(img);
+  Rcpp::S4 s4obj(image);
   
   if (!s4obj.is(rtypename.c_str())) {
     Rf_error((std::string("object is not of the type ")+rtypename).c_str());
@@ -162,8 +162,6 @@ Rcpp::DataFrame blobDetector(SEXP img) {
   std::vector<std::vector<cv::Point> > contours;
   cv::findContours(o->image, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
   
-  Rcpp::Rcout << ellipse(contours[1]) << "\n";
-  
   int n = contours.size();
   Rcpp::NumericVector id(n), x(n), y(n), area(n), alpha(n), major(n), minor(n);
   cv::RotatedRect ell;
@@ -171,8 +169,8 @@ Rcpp::DataFrame blobDetector(SEXP img) {
     ell = cv::minAreaRect(contours[i]);
     id[i] = i + 1;
     x[i] = ell.center.x;
-    y[i] = ell.center.y;
-    alpha[i] = ell.angle - 90;
+    y[i] = -ell.center.y + o->dim[0];
+    alpha[i] = -ell.angle - 90;
     major[i] = ell.size.height;
     minor[i] = ell.size.width;
     area[i] = cv::contourArea(contours[i]); 

@@ -4,7 +4,7 @@
 \alias{getFrame}
 \title{Grab a specific frame from a video}
 \usage{
-getFrame(...)
+getFrame(video, frame)
 }
 \arguments{
 \item{video}{The vpVideo object from which the frame should be grabbed.}

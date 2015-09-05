@@ -183,16 +183,19 @@ img2r <- function(image) {
 #' \itemize{
 #'  \item{\code{$type}: the type of image stored in the object. There are 4 types of image types:
 #'    \itemize{
-#'      \item{\code{binary}: 1 channel image with integer pixel values of 0 or 1 only.}
-#'      \item{\code{grayscale}: 1 channel image with integer pixel values in [0, 255].}
-#'      \item{\code{rgb}: 3 channels image with integer pixel values in [0, 255].}
-#'      \item{\code{numeric}: 1 or 3 channels image with unconstrained pixel values.}
+#'      \item{\code{binary}: 1-channel image with integer pixel values of 0 or 1 only.}
+#'      \item{\code{grayscale}: 1-channel image with integer pixel values in [0, 255].}
+#'      \item{\code{rgb}: 3-channels image with integer pixel values in [0, 255].}
+#'      \item{\code{numeric}: 1- or 3-channels image with unconstrained pixel values.}
 #'    }
 #'  }
 #'  \item{"dim": the dimensions in pixels (width x height x depth) of the image.}
 #' }
 #' 
 #' @usage NULL
+#' 
+#' @details A vpImage object is not a persistent object, but a pointer to a C++ 
+#' object that cannot be saved for reuse in a different session.
 #' 
 #' @seealso \code{\link{readImg}}, \code{\link{getFrame}}, \code{\link{imshow}}
 "vpImage"
@@ -212,6 +215,9 @@ img2r <- function(image) {
 #' }
 #' 
 #' @usage NULL
+#' 
+#' @details A vpVideo object is not a persistent object, but a pointer to a C++ 
+#' object that cannot be saved for reuse in a different session.
 #' 
 #' @seealso \code{\link{readVid}}, \code{\link{getFrame}}
 "vpVideo"

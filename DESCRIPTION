@@ -1,14 +1,16 @@
 Package: videoplayR
 Type: Package
-Title: Functions to manipulate video files with R
+Title: Functions to process video and image files with R
 Version: 0.3
-Date: 2014-08-11
+Date: 2015-09-04
 Author: Simon Garnier <garnier@njit.edu> - @sjmgarnier
 Maintainer: Simon Garnier <garnier@njit.edu>
-Description: This package uses the OpenCV library to provide R users with some basic functions to read and manipulate video files. 
+Description: This package uses the OpenCV library to provide R users with some 
+  basic functions to read and manipulate video files. 
 License: GPL-3
 NeedsCompilation: yes
 Imports: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2), methods
-Depends: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2), grid (>= 3.2.2), pbapply (>= 1.1-1), dplyr (>= 0.4.2)
+Depends: Rcpp (>= 0.11.0), RcppArmadillo (>= 0.4.000.2), pbapply (>= 1.1-1)
+Suggests: plotrix (>= 3.5-12)
 LinkingTo: Rcpp, RcppArmadillo
 RcppModules: vp

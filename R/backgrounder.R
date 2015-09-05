@@ -1,14 +1,14 @@
 backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
   if (color) {
-    bg <- backgrounder_col(video = video, n = n, type = type)
+    bg <- .backgrounder_col(video = video, n = n, type = type)
   } else {
-    bg <- backgrounder_gray(video = video, n = n, type = type)
+    bg <- .backgrounder_gray(video = video, n = n, type = type)
   }
   
   r2img(bg)
 }
 
-backgrounder_col <- function(video, n = 10, type = "mean") {
+.backgrounder_col <- function(video, n = 10, type = "mean") {
   if (class(video) != "Rcpp_vpVideo") {
     stop("This is not a Video object.")
   } 
@@ -79,7 +79,7 @@ backgrounder_col <- function(video, n = 10, type = "mean") {
   }  
 }
 
-backgrounder_gray <- function(video, n = 10, type = "mean") {
+.backgrounder_gray <- function(video, n = 10, type = "mean") {
   if (class(video) != "Rcpp_vpVideo") {
     stop("This is not a Video object.")
   } 
