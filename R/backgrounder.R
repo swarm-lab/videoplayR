@@ -1,3 +1,38 @@
+# ------
+#' Generate a background image from a video
+#' 
+#' This function computes the background image of a video. It tries to determine
+#' the background value of each pixel by approximating its central value, either 
+#' as the mean or as the median of a given number n of images spread throughout 
+#' the video. 
+#'
+#' @param video A vpVideo object from which a background image need to be 
+#' computed.
+#' @param n The number of images to extract from the video in order to compute 
+#' the background image. The images are taken at evenly spaced intervals 
+#' throughout the video. The default is 10. Larger numbers will result in better 
+#' accuracy, but might take longer to compute. 
+#' @param type The type of computation to be performed in order to obtain the 
+#' background image. The possible values are "mean" (default) and "median". 
+#' "mean" is faster but is usually less accurate than "median". 
+#' @param color A logical value indicating if the the background image should be
+#' color (TRUE) or grayscale (FALSE, default). Grayscale background image are 
+#' faster to compute. 
+#' 
+#' @return This function returns a vpImage object.
+#' 
+#' @details The vpImage object created by the \code{backgrounder} function is 
+#' not a persistent object, but a pointer to a C++ object that cannot be saved 
+#' for reuse in a different session.
+#' 
+#' @seealso \code{\link{vpImage}}
+#' 
+#' @examples
+#' filename <- system.file("sample_vid/Walk3.mp4", package = "videoplayR")
+#' vid <- readVid(filename)
+#' imshow(getFrame(vid, 125))
+#' bg <- backgrounder(vid, n = 100, type = "median", color = TRUE)
+#' imshow(bg)
 backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
   if (color) {
     bg <- .backgrounder_col(video = video, n = n, type = type)

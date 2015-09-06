@@ -1,9 +1,33 @@
-imshow <- function(image, rescale = TRUE) {
+# ------
+#' Display vpImage object
+#' 
+#' This function opens a graphics device and display the image contained in a 
+#' vpImage object. 
+#'
+#' @param image A vpImage object to display. 
+#' 
+#' @return This function does not return anything.
+#' 
+#' @details \code{imshow} opens a regular graphics device, meaning that it is 
+#' possible to overlay lines and points over the image, like with any regular
+#' plot. The bottom left corner of the image is set at \{1,1\}.
+#' 
+#' If the type of the vpImage object is "numeric", then its values are rescaled
+#' between 0 and 1, with 0 representing the minimum value of the original image
+#' and 1 representing its maximum. 
+#' 
+#' @seealso \code{\link{vpImage}}
+#' 
+#' @examples
+#' filename <- system.file("sample_img/SampleVideo_1080x720_5mb.png", package = "videoplayR")
+#' img <- readImg(filename)
+#' imshow(img)
+imshow <- function(image) {
   img <- img2r(image)
   imgType <- image$type
   imgDims <- image$dim
   
-  if (imgType == "numeric" & rescale == TRUE) {
+  if (imgType == "numeric") {
     rg <- range(img)
     if (rg[1] != rg[2]) {
       img <- (img - rg[1]) / (rg[2] - rg[1])  

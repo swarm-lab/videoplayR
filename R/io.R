@@ -166,7 +166,7 @@ img2r <- function(image) {
 #' @examples
 #' gradient <- function(x1, x2) { x1 + x2 }
 #' x <- 0:127
-#' mat <- myfunc(outer(rep(1, length(x)), x), x)
+#' mat <- gradient(outer(rep(1, length(x)), x), x)
 #' img <- r2img(mat)
 #' imshow(img)
 "r2img"
