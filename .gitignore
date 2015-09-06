@@ -12,3 +12,4 @@ videoplayR.so
 test.R
 tokeep
 *.o
+inst/doc
