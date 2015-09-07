@@ -15,12 +15,38 @@ output:
   pdf_document:
     toc: yes
 vignette: |
-  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Vignette Title} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
 ---
 
 # Introduction
+
+[R](http://www.r-project.org) is by far my favorite tool to process the data 
+from my lab's experiments, generate beautiful and informative graphs from them, 
+and compute all the statistics that I need for scientific reports and articles.
+However it lacks one important toolset for my work: the ability to process 
+images and videos. I can always rely on a [Matlab](http://www.mathworks.com/products/matlab/)
+or a [Python](https://www.python.org/) script for this, but I would prefer 
+handling my analysis workflow entirely with R rather than depending on mutiple
+tools and languages for this.
+
+`videoplayR` is my attempt at solving this problem by creating a computer vision
+toolbox for R, based on the [OpenCV](http://opencv.org/) C++ library. In its 
+current state, `videoplayR` is very limited when compared to the libraries 
+provided by Matlab and Python, but (1) it is functional enough to import images 
+from image files and videos and perform some basic processing on them, and (2) 
+it is a very young package that I hope will start growing quickly. 
+
+This vignette is intended to show how to install and run `videoplayR`, and to 
+demonstrate its current computer vision capabilities. If you run into a bug or 
+would like to suggest improvements, please head to the package's Github 
+[repository](https://github.com/swarm-lab/videoplayR) and submit a new issue at
+[https://github.com/swarm-lab/videoplayR/issues](https://github.com/swarm-lab/videoplayR/issues).
+I also welcome the help of R developers to improve `videoplayR`. The best way to 
+do this is to fork the repository and submit pull requests for your changes.
 
 [Back to top]("#")
 
@@ -28,32 +54,92 @@ vignette: |
 
 # Installation
 
-## Installing `pkg-config` and `opencv`
+`videoplayR` is not available on CRAN, at least for now. The reason is that it 
+has external dependencies (OpenCV) that are difficult to include in the package
+directly. Until someone finds a convenient, multi-platform solution to ship 
+OpenCV source files with the package, it will remain available through Github 
+only.
+
+Unfortunately `videoplayR` is also not (yet) available for Windows. I have zero 
+experience preparing Rcpp-based packages for Windows and currently I do not have 
+the time and resources to learn how to compile packages for Windows. If you are 
+a R/Rcpp developer with experience preparing packages for Windows, and you want 
+to help bring `videoplayR` to Windows, you can head to `videoplayR` [Github repository](https://github.com/swarm-lab/videoplayR), clone it and send a pull 
+request once you have figured out how to install OpenCV and compile the package 
+on Windows. 
+
+The good news is that it is not very difficult to install the required 
+dependencies on Mac and Linux. A few command lines in the terminal are enough to
+prepare your computer for and compile `videoplayR`. The steps to install the 
+package on your computer are detailed in the sections below. 
+
+## Installing `opencv`
 
 ### Mac
 
-```{bash, eval = FALSE}
-brew install pkg-config opencv3
+The easiest way to install all the external dependencies for `videoplayR` is to 
+use a package manager such as [Homebrew](http://brew.sh/) or [MacPorts](https://www.macports.org).
+I personally favor Homebrew, but MacPorts will also install the dependencies 
+just fine. 
+
+**- Homebrew -**
+
+To install Homebrew, just head to your favorite terminal app (OSX Terminal for
+instance) and run the following command line: 
+
+```{bash, eval=FALSE} 
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-### Linux 
+Then, install OpenCV 3.0 by simply typing the following command line in the 
+terminal:
 
-```{bash, eval = FALSE}
-sudo apt-get install pkg-config libopencv-dev
+```{bash, eval=FALSE}
+brew install opencv3
 ```
 
-### Windows
+**- MacPorts -**
 
-Unfortunately `videoplayR` is not (yet) available on Windows. 
+You can install MacPorts by following the instructions provided on its website
+at [https://www.macports.org/install.php](https://www.macports.org/install.php).
 
-I have zero experience preparing Rcpp-based packages for Windows and currently I 
-do not have the time and resources to learn how to compile packages for Windows. 
-If you are a R/Rcpp developer with experience preparing packages to compile on 
-Windows, you can head to `videoplayR` [Github repository](https://github.com/swarm-lab/videoplayR), 
-clone it and send a pull request once you have figured out how to properly 
-install the package on Windows. 
+Once MacPorts is installed, you will be able to install OpenCV 3.0 by simply 
+typing the following command line in the terminal (you will need the 
+administrator password):
+
+```{bash, eval=FALSE}
+sudo port install opencv
+```
+
+### Linux
+
+On Linux, you should be able to install the development files of OpenCV using 
+your usual package manager. 
+
+**- apt based systems (Ubuntu, Debian, etc.) -**
+
+```{bash, eval = FALSE}
+sudo apt-get install libopencv-dev
+```
+
+**- yum based systems (Red Hat, Fedora, etc.) -**
+
+```{bash, eval = FALSE}
+sudo yum install libopencv-devel
+```
+
+**- Arch Linux -**
+
+```{bash, eval = FALSE}
+sudo pacman -S opencv
+```
 
 ## Installing `videoplayR` from Github
+
+Once OpenCV and its dependencies are installed, you can open your favorite R 
+development environment and enter the following commands in the R console in 
+order to install the development version of `videoplayR` from its Github 
+repository. 
 
 ```{r, eval=FALSE}
 if (!require(devtools)) {
@@ -61,21 +147,161 @@ if (!require(devtools)) {
 }
 
 devtools::install_github("swarm-lab/videoplayR")
+
+library(videoplayR)
 ```
+
+That's it! `videoplayR` should now be ready to work on your system. If you 
+experience any trouble during the installation process, please report it on the 
+issue page of the package's Github repository at 
+[https://github.com/swarm-lab/videoplayR/issues](https://github.com/swarm-lab/videoplayR/issues).
 
 [Back to top]("#")
 
 ---
 
-# Loading pictures
+# Loading images
+
+The core of the `videoplayR` package is the `vpImage` object class. A `vpImage` 
+object is a wrapper around an OpenCV image matrix that can be manipulated 
+directly from within R. There are three ways to create `vpImage` objects: from 
+image files, from video frames, and from R matrices and arrays. I will 
+demonstrate these different methods in the rest of this section.
+
+**Note that `vpImage` objects are not persistent objects like any normal R 
+object. They cannot be saved for reuse in a different session.**
+
+```{r, echo=FALSE, message=FALSE}
+library(videoplayR)
+```
 
 ## From image files
 
-## From videos 
+The `readImg` function will read an image file and return a `vpImage` object. In
+the example below, I use an image file included in the package. If you prefer to
+use an image from your computer, just replace the filename with a character 
+string representing the path to your image file.
+
+```{r}
+filename <- system.file("sample_img/SampleVideo_1080x720_5mb.png", package = "videoplayR")
+img1 <- readImg(filename)
+```
+
+A `vpImage` object has a couple of attributes that represent the type of image 
+stored inside (binary, grayscale, RGB, or numeric) and the dimensions of the 
+picture (width and height in pixels, and number of channels if applicable). You 
+can access these attributes as follows. 
+
+```{r}
+img1$type
+img1$dim
+```
+
+Finally, you can display the `vpImage` object using the `imshow` function.
+
+```{r, fig.height=4.5}
+imshow(img1)
+```
+
+Since `imshow` display the image in a regular R graphics device, you can plot 
+lines, dots, etc., over the image display. Note that the bottom left of the 
+image corresponds to the {1, 1} coordinates.
+
+```{r, fig.height=4.5}
+imshow(img1)
+points(c(500, 530), c(505, 505), col = "red", pch = 19, cex = 2)
+lines(c(1, img1$dim[2]), c(1, img1$dim[1]), col = "red", lwd = 8)
+lines(c(1, img1$dim[2]), c(img1$dim[1], 1), col = "red", lwd = 8)
+```
+
+## From videos frames
+
+As its name suggests, `videoplayR` can also read videos. It cannot (yet) play
+them, but it can read video frames and import them as `vpImage` objects. Videos
+are accessed through special object class: `vpVideo`. A `vpVideo` object is a 
+wrapper around an OpenCV video reader object and it can be created using the 
+`readVid` function. 
+
+```{r}
+filename <- system.file("sample_vid/SampleVideo_1080x720_5mb.mp4", package = "videoplayR")
+vid1 <- readVid(filename)
+```
+
+A `vpVideo` object has three attributes that represent the length of the video 
+(in frames), the framerate of the video (in frames per second), and the dimesions 
+of the video (width and heigth in pixels). You can access these attributes as follows. 
+
+```{r}
+vid1$length
+vid1$fps
+vid1$dim
+```
+
+You can grab any frame in the video as a `vpImage` object by using the `getFrame` 
+function as follows. 
+
+```{r, fig.height=4.5}
+img2 <- getFrame(vid1, 100)
+imshow(img2)
+```
+
+## From R matrices and arrays
+
+Fundamentally, a digital image is nothing more than a matrix of numbers. Therefore
+I added a couple of functions that convert R matrices and arrays (3D arrays only)
+into `vpImage` objects, and vice versa. 
+
+The `r2img` function takes an R matrix or 3D array and converts it to a `vpImage`
+object. For instance, in the following code chunk, I create a gradient matrix 
+that I convert to a `vpImage` object and then display using the `imshow` function. 
+
+```{r}
+gradient <- function(x1, x2) { x1 + x2 }
+x <- 0:127
+mat1 <- gradient(outer(rep(1, length(x)), x), x)
+img3 <- r2img(mat1)
+imshow(img3)
+```
+
+On the other hand, the `img2r` function takes a `vpImage` object and converts it 
+to an R matrix (for binary, grayscale and 1-channel numeric objects) or a 3D 
+arrays (for RGB and 3-channels numeric objects). You can then manipulate the 
+matrix or array like you would do with any other regular R matrix or array, and 
+then convert it back to a `vpImage` object, like in the example below. 
+
+```{r, fig.height=4.5}
+mat2 <- img2r(img1)
+mat2[80:640, 250:650, ] <- 255
+img4 <- r2img(mat2)
+imshow(img4)
+```
+
+Note that a number of operations can be applied to a `vpImage` object directly 
+without requiring a conversion to an R object first. I will detail these 
+operations in the next section. 
 
 [Back to top]("#")
 
 ---
+
+# Operations on images
+
+[TODO]
+
+[Back to top]("#")
+
+---
+
+
+
+
+
+
+
+
+
+
+
 
 
 
