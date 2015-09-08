@@ -12,7 +12,7 @@
 #' the background image. The images are taken at evenly spaced intervals 
 #' throughout the video. The default is 10. Larger numbers will result in better 
 #' accuracy, but might take longer to compute. 
-#' @param type The type of computation to be performed in order to obtain the 
+#' @param method The type of computation to be performed in order to obtain the 
 #' background image. The possible values are "mean" (default) and "median". 
 #' "mean" is faster but is usually less accurate than "median". 
 #' @param color A logical value indicating if the the background image should be
@@ -31,19 +31,19 @@
 #' filename <- system.file("sample_vid/Walk3.mp4", package = "videoplayR")
 #' vid <- readVid(filename)
 #' imshow(getFrame(vid, 125))
-#' bg <- backgrounder(vid, n = 100, type = "median", color = TRUE)
+#' bg <- backgrounder(vid, n = 100, method = "median", color = TRUE)
 #' imshow(bg)
-backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
+backgrounder <- function(video, n = 10, method = "mean", color = FALSE) {
   if (color) {
-    bg <- .backgrounder_col(video = video, n = n, type = type)
+    bg <- .backgrounder_col(video = video, n = n, method = method)
   } else {
-    bg <- .backgrounder_gray(video = video, n = n, type = type)
+    bg <- .backgrounder_gray(video = video, n = n, method = method)
   }
   
   r2img(bg)
 }
 
-.backgrounder_col <- function(video, n = 10, type = "mean") {
+.backgrounder_col <- function(video, n = 10, method = "mean") {
   if (class(video) != "Rcpp_vpVideo") {
     stop("This is not a Video object.")
   } 
@@ -54,7 +54,7 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
   
   frames <- round(seq.int(1, video$length - 1, length.out = n))
   
-  if (type == "mean") {
+  if (method == "mean") {
     
     mat <- array(0, dim = c(video$dim, 3))
     
@@ -73,7 +73,7 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
     
     return(mat / n)
     
-  } else if (type == "median") {
+  } else if (method == "median") {
     
     mat <- array(0, dim = c(video$dim, 3))
     stack.r <- array(NA, dim = c(video$dim, n))
@@ -109,12 +109,12 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
     
   } else {
     
-    stop("'type' should be 'mean' or 'median'")
+    stop("'method' should be 'mean' or 'median'")
     
   }  
 }
 
-.backgrounder_gray <- function(video, n = 10, type = "mean") {
+.backgrounder_gray <- function(video, n = 10, method = "mean") {
   if (class(video) != "Rcpp_vpVideo") {
     stop("This is not a Video object.")
   } 
@@ -125,7 +125,7 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
   
   frames <- round(seq.int(1, video$length - 1, length.out = n))
   
-  if (type == "mean") {
+  if (method == "mean") {
     
     mat <- array(0, dim = video$dim)
     
@@ -145,7 +145,7 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
     
     return(mat / n)
     
-  } else if (type == "median") {
+  } else if (method == "median") {
     
     mat <- array(0, dim = video$dim)
     stack <- array(NA, dim = c(video$dim, n))
@@ -170,7 +170,7 @@ backgrounder <- function(video, n = 10, type = "mean", color = FALSE) {
     
   } else {
     
-    stop("'type' should be 'mean' or 'median'")
+    stop("'method' should be 'mean' or 'median'")
     
   }  
 }
