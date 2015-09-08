@@ -4,7 +4,7 @@
 \alias{backgrounder}
 \title{Generate a background image from a video}
 \usage{
-backgrounder(video, n = 10, type = "mean", color = FALSE)
+backgrounder(video, n = 10, method = "mean", color = FALSE)
 }
 \arguments{
 \item{video}{A vpVideo object from which a background image need to be
@@ -15,7 +15,7 @@ the background image. The images are taken at evenly spaced intervals
 throughout the video. The default is 10. Larger numbers will result in better
 accuracy, but might take longer to compute.}
 
-\item{type}{The type of computation to be performed in order to obtain the
+\item{method}{The type of computation to be performed in order to obtain the
 background image. The possible values are "mean" (default) and "median".
 "mean" is faster but is usually less accurate than "median".}
 
@@ -41,7 +41,7 @@ for reuse in a different session.
 filename <- system.file("sample_vid/Walk3.mp4", package = "videoplayR")
 vid <- readVid(filename)
 imshow(getFrame(vid, 125))
-bg <- backgrounder(vid, n = 100, type = "median", color = TRUE)
+bg <- backgrounder(vid, n = 100, method = "median", color = TRUE)
 imshow(bg)
 }
 \seealso{
