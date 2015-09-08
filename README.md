@@ -1,42 +1,45 @@
 videoplayR
-==========
+=========
 
-`videoplayR` is an R package that provides a few functions (for now) to 
-manipulate video files with R. It requires the installation of OpenCV 2.4.x. 
+`videoplayR` is an R package that provides a few functions (for now) to manipulate 
+video and image files with R. It requires the installation of OpenCV. 
 
 ### Package overview
 
-#### Description
-This package uses the OpenCV library to provide R users with some basic 
-functions to read and manipulate video files.
+This package uses the [OpenCV C++ library](http://opencv.org/) to provide R users 
+with some basic functions to read and manipulate video and image files. As of now, 
+`videoplayR` can:
 
-As of now, `videoplayR` can:
-* Count the number of frames in a video.
-* Extract the framerate of a video. 
-* Extract the dimensions of a video. 
-* Grab any frame from a video. 
-* Grab frames sequentially at high speed. 
+* Load can access video and image files. 
+* Grab frames from videos and convert them to images.
+* Convert images to R matrices and arrays.
+* Convert R matrices and arrays to images. 
+* Display images in the default R graphics device. 
+* Perform basic image processing operations such as thresholding, flattening,
+    blending.
+* Perfom simple background reconstruction and blob detection.
 
-#### Installation
-`videoplayR` requires the installation of the OpenCV library (>2.4.x) to compile 
-and run. OpenCV can be installed on Linux, Mac and Windows compatible computers.
-You should be able to find the instructions to install OpenCV on your computer 
-thanks to a simple Google search (or ask me if you really can't find the 
-information).
+### General information
 
-Once OpenCV is installed on your computer, you can install `videoplayR` by 
-running the following commands in R:
+`videoplayR` requires the installation of the OpenCV library to compile and run. 
+For the moment, the package can only be installed on Mac and Linux computers. 
 
-```{r}
-if (!require("devtools")) install.packages("devtools")
-devtools::install_github("swarm-lab/videoplayR")
-```
+Installation instructions for OpenCV and `videoplayR`, as well as a brief tutorial 
+for the different functions of the package are available on Rpubs at the following 
+address: [http://rpubs.com/sjmgarnier/videoplayR](http://rpubs.com/sjmgarnier/videoplayR). 
+
+Issues and suggestions can be reported here: 
+[https://github.com/swarm-lab/videoplayR/issues](https://github.com/swarm-lab/videoplayR/issues)
+
+Pull requests can be submitted here: 
+[https://github.com/swarm-lab/videoplayR/pulls](ttps://github.com/swarm-lab/videoplayR/pulls)
 
 #### Author(s)
-Simon Garnier - [@sjmgarnier](https://twitter.com/sjmgarnier) - 
-<garnier@njit.edu>
+
+Simon Garnier - [@sjmgarnier](https://twitter.com/sjmgarnier) - <garnier@njit.edu>
 
 #### References
+
 This package uses the OpenCV library to read and process video files. More 
-information about OpenCV can be found at: http://opencv.org/
+information about OpenCV can be found at: [http://opencv.org/](http://opencv.org/)
 
