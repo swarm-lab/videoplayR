@@ -160,7 +160,7 @@ Rcpp::DataFrame blobDetector(SEXP image) {
   vpImage *o = static_cast<vpImage*> (R_ExternalPtrAddr(xptr));
   
   std::vector<std::vector<cv::Point> > contours;
-  cv::findContours(o->image, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
+  cv::findContours(o->image.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
   
   int n = contours.size();
   Rcpp::NumericVector id(n), x(n), y(n), area(n), alpha(n), major(n), minor(n);
