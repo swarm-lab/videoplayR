@@ -286,7 +286,98 @@ operations in the next section.
 
 # Operations on images
 
+Currently `videoplayR` provides only a small fraction of the image processing 
+capabilities of OpenCV. The number of functions will increase little by little
+as my needs for more advanced features develop or as other R developers provide
+their own code to be included in the package (hint: pull requests to the project
+repository are very, very welcome: 
+[https://github.com/swarm-lab/videoplayR/pulls](https://github.com/swarm-lab/videoplayR/pulls))
+
+Nevertheless, `videoplayR` has enough capabilities to get anybody started with 
+basic image processing and, with a bit of creativity, to achieve more advanced 
+results such as simple object detection and tracking. I review the image processing
+functions provided by `videoplayR` in the rest of this section.
+
+## Thresholding
+
+The most common way to generate binary images (images with pixel values that are 
+either zeros or ones) is to use a method called thresholding: all the pixels with 
+a value above a given threshold are set to the same value (one for instance), and 
+all the pixels with a value below the threshold are set to another one (zero for 
+instance).
+
+The `thresholding` function in the `videoplayR` package does just that. It takes
+three arguments: the original image to binarize (`image =`), a threshold value
+(`thres = `), and the type of thresholding (`type =`). If `type = "binary"` then 
+the pixels above `thres` are set to one, and the pixels below are set to zero.
+
+```{r, fig.height=4.5}
+bin1 <- thresholding(image = img1, thres = 128, type = "binary")
+imshow(bin1)
+```
+
+If `type = "inverted"` then the pixels above `thres` are set to zero, and the 
+pixels below are set to one
+
+```{r, fig.height=4.5}
+bin2 <- thresholding(img1, 128, type = "inverted")
+imshow(bin2)
+```
+
+Note that if the original image has multiple channels (RGB image or 3-channels 
+numeric image), it is first "flattened" to one channel automatically by the 
+`thresholding` function. Image flattening is explained in the following section.
+
+## Flattening 
+
+Flattening an image is the process of reducing its depth, that is the number of 
+channels that it is made of. A typical example of flattening is when one wants to
+transform an RGB image (3 channels: Red, Green, Blue) to a grayscale image (1 channel).
+
+`videoplayR` offers a simple way to flatten a 3-channels image by using the 
+`ddd2d` function (depth 3 to depth 1). Hereafter it is used to convert an RGB 
+image to grayscale. 
+
+```{r, fig.height=4.5}
+gray1 <- ddd2d(img1)
+imshow(gray1)
+```
+
+You can also expand a 1-channel image to 3 channels using the `d2ddd` function 
+(depth 1 to depth 3). 
+
+```{r, fig.height=4.5}
+gray2 <- d2ddd(gray1)
+imshow(gray2)
+```
+
+This will not restore the colors of the original RGB image (this information is 
+lost), but it can be a practical way to make 3-channels mask or intensity images
+as I will demonstrate in the next section about blending images.
+
+## Blending
+
 [TODO]
+
+## Simple background extraction
+
+[TODO]
+
+## Simple blob detection
+
+[TODO]
+
+```{r, message=FALSE}
+require(plotrix)
+filename <- system.file("sample_img/dots.jpg", package = "videoplayR")
+img5 <- readImg(filename)
+bin3 <- thresholding(img5, 200, "inverted")
+blobs <- blobDetector(bin3)
+
+imshow(img5)
+points(y ~ x, data = blobs, col = "red", pch = 20)
+draw.ellipse(blobs$x, blobs$y, blobs$major / 2, blobs$minor / 2, blobs$alpha, border = "red")
+```
 
 [Back to top]("#")
 

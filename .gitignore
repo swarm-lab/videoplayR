@@ -13,3 +13,4 @@ test.R
 tokeep
 *.o
 inst/doc
+vignettes/rsconnect

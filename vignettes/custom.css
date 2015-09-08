@@ -1,14 +1,17 @@
 h1 {
   font-size: 24px;
+  font-weight: bold;
 }
 
 h2 {
   font-size: 18px;
+  font-weight: bold;
   text-indent: 2em;
 }
 
 h3 {
   font-size: 18px;
+  font-weight: bold;
   text-indent: 3em;
 }
 
