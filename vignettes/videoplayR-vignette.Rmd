@@ -1,6 +1,6 @@
 ---
 title: "`videoplayR` - a basic (for now) computer vision library for R"
-author: "Simon Garnier"
+author: "Simon Garnier - <a href='https://twitter.com/sjmgarnier'>@sjmgarnier</a>"
 date: "`r Sys.Date()`"
 output:
   html_document:
@@ -357,27 +357,158 @@ as I will demonstrate in the next section about blending images.
 
 ## Blending
 
-[TODO]
+Blending two images is similar to doing element-wise operations on two R matrices 
+or arrays. Each pixel of an image A is combined with the corresponding pixel of 
+another image B through a mathematical operation: they can be added together, 
+subtracted from each other, multiplied with each other, or divided by each other.
+
+When using `vpImage` objects, it is possible to blend two images together without
+having to convert them to R matrices or arrays first. This is done using the 
+`blend` function that works taking two `vpImage` objects (`image1 = ` and `image2 =`)
+and combining them using one of four possible operations (`+`, `-`, `*`, `/`). 
+
+In the following example, I create an uniform 3-channels image (`lum`) with all 
+pixels set to 50. I can then add or subtract this uniform image from the first 
+`vpImage` object that we had created earlier in order to adjust the overall 
+luminosity of the picture. 
+
+```{r, fig.height=9}
+mat <- matrix(50, nrow = img1$dim[1], ncol = img1$dim[2])
+lum <- d2ddd(r2img(mat))
+
+par(mfrow = c(3, 1))
+
+imshow(blend(img1, lum, "-"))
+text(x = 1240, y = 40, labels = "Intensity - 50", adj = 1, cex = 3, col = "white")
+
+imshow(img1)
+text(x = 1240, y = 40, labels = "Original", adj = 1, cex = 3, col = "black")
+
+imshow(blend(img1, lum, "+"))
+text(x = 1240, y = 40, labels = "Intensity + 50", adj = 1, cex = 3, col = "black")
+```
+
+We can also use the `blend` function to mask part of the image, that is turn the 
+pixels to black (i.e. to zero) in the masked part. Hereafter I create a 3-channels
+mask image (`mask`) and combine it with our example image using the multiplication
+operation. The pixels set to zero in the mask image will turn the corresponding 
+pixels in the example image to black after blending, while pixels set to one in 
+the mask image will not modify the corresponding pixels in the example image. 
+
+```{r, fig.height=4.5}
+mat <- matrix(0, nrow = img1$dim[1], ncol = img1$dim[2])
+mat[80:640, 250:650] <- 1
+mask <- d2ddd(r2img(mat))
+
+imshow(blend(img1, mask, "*"))
+```
+
+By combining blending operations with creative masking and luminance images, you 
+can achieve pretty complex image transformations.
 
 ## Simple background extraction
 
-[TODO]
+In my work, I often need to separate objects in the foreground from the image 
+background. It is fairly easy to do if you have a good image of the background 
+in the absence of the objects. However if you do not possess a clean picture of 
+the background (for instance when there are constantly moving objects in the 
+frame), you need to reconstruct the background image. A simple way to do so is 
+to estimate for each pixel its most frequent value throughout a video, assuming
+that each pixel is not visited too often by the objects in the video. 
+
+The `backgrounder` function in `videoplayR` is my attempt at providing a tool to
+automatically reconstruct the background image of a video. This functions takes 
+four arguments: 
+
++ a `vpVideo` object (`video =`).
++ the number of frames to sample for reconstructing the background (`n =`). Larger 
+numbers give more accurate results but cause the function to run slower. 
++ the method to extract the background (`method =`). If `method = "mean"`, the 
+background image will correspond to the average value of the sampled frames. It 
+is the fastest method, but not the most accurate. If `method = "median"`, the 
+background image will correspond to the median value of the sampled frames. It 
+is more accurate, but also slower. 
++ whether the background should be returned as a color image (`color = TRUE`, 
+slower) or as a grayscale image (`color = FALSE`, faster).
+
+In the following example, I reconstruct the background of a video in which people
+are normally passing through. The first figure below shows a frame containing a 
+person. The second figure shows the reconstructed background image.
+
+```{r}
+filename <- system.file("sample_vid/Walk3.mp4", package = "videoplayR")
+vid2 <- readVid(filename)
+imshow(getFrame(vid2, 125))
+```
+
+```{r}
+bg <- backgrounder(vid2, n = 100, type = "median", color = TRUE)
+imshow(bg)
+```
 
 ## Simple blob detection
 
-[TODO]
+Another important task that I often need to perform is detect the location of 
+objects in an image, for instance after removing its background. This task is 
+often called blob detection.
+
+`videoplayR` implements a very simple blob detection function called `blobDetector`. 
+It will find white blobs on a black background and will return their locations 
+in the image as well as some information about their shapes (orientation of the 
+major axis, lengths of the major and minor axis in pixels, surface area in pixels). 
+
+In the example below, I demonstrate how to detect objects on a uniform background 
+using the `blobDetector` function. 
+
+First, I load and display the test image.
+
+```{r}
+filename <- system.file("sample_img/dots.jpg", package = "videoplayR")
+img5 <- readImg(filename)
+imshow(img5)
+```
+
+The objects in this image are darker than the background. The first step for letting 
+the computer detect them is to convert the color image to a binary one, with the 
+objects to detect appearing white (value of one) and the background black (value 
+of zero). 
+
+```{r}
+bin3 <- thresholding(img5, 200, "inverted")
+imshow(bin3)
+```
+
+We can now pass this binary image to the `blobDetector` function that will return 
+a data frame in which each row corresponds to a specific object in the image. 
+
+```{r}
+blobs <- blobDetector(bin3)
+head(blobs)
+```
+
+Each column of the data frame corresponds to a property of each blob:
+
++ "id": identity of the blob.
++ "x": x coordinate of the center of the ellipse approximating the shape of the blob.
++ "y": y coordinate of the center of the ellipse approximating the shape of the blob.
++ "alpha": orientation in degrees of the major axis of the ellipse.
++ "major": length of the major axis of the ellipse.
++ "minor": length of the minor axis of the ellipse.
++ "area": area of the polygon containing the blob.
+
+Finally, we can plot the result of the blob detection algorithm over the original
+image. This requires the installation of the `plotrix` package to add ellipses 
+showing the minor and major axes of each object.
 
 ```{r, message=FALSE}
 require(plotrix)
-filename <- system.file("sample_img/dots.jpg", package = "videoplayR")
-img5 <- readImg(filename)
-bin3 <- thresholding(img5, 200, "inverted")
-blobs <- blobDetector(bin3)
-
 imshow(img5)
 points(y ~ x, data = blobs, col = "red", pch = 20)
 draw.ellipse(blobs$x, blobs$y, blobs$major / 2, blobs$minor / 2, blobs$alpha, border = "red")
 ```
+
+The estimated ellipses are not perfect for every object, but the center of mass 
+is pretty accurate in each case. 
 
 [Back to top]("#")
 
