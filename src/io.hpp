@@ -1,7 +1,7 @@
 SEXP _readImg(std::string filename) {
   cv::Mat cvImage = cv::imread(filename);
 
-  Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(cvImage), true);
+  Rcpp::XPtr<vpImage> ptr(new vpImage(cvImage), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpImage).name(), ptr);
 }
@@ -22,7 +22,7 @@ void _writeImg(std::string filename, SEXP image) {
 }
 
 SEXP _readVid(std::string filename) {
-  Rcpp::XPtr<vpVideo> ptr(new vpVideo::vpVideo(filename), true);
+  Rcpp::XPtr<vpVideo> ptr(new vpVideo(filename), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpVideo).name(), ptr);
 }
@@ -42,7 +42,7 @@ SEXP getFrame(SEXP video, int frame) {
   o->setFrame(frame);
   cv::Mat image = o->frame;
   
-  Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(image), true);
+  Rcpp::XPtr<vpImage> ptr(new vpImage(image), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpImage).name(), ptr);
 }
@@ -157,7 +157,7 @@ SEXP r2img(Rcpp::NumericVector array, bool numeric) {
     throw std::range_error("The array must 2 or 3 dimensional.");
   }
   
-  Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(cvImage), true);
+  Rcpp::XPtr<vpImage> ptr(new vpImage(cvImage), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpImage).name(), ptr);
 }

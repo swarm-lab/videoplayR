@@ -16,7 +16,7 @@ SEXP ddd2d(SEXP image) {
     cv::Mat d;
     cv::cvtColor(o->image, d, cv::COLOR_BGR2GRAY);
     
-    Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(d), true);
+    Rcpp::XPtr<vpImage> ptr(new vpImage(d), true);
     Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
     return maker (typeid(vpImage).name(), ptr);
   }
@@ -40,7 +40,7 @@ SEXP d2ddd(SEXP image) {
     cv::Mat d;
     cv::cvtColor(o->image, d, cv::COLOR_GRAY2BGR);
     
-    Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(d), true);
+    Rcpp::XPtr<vpImage> ptr(new vpImage(d), true);
     Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
     return maker (typeid(vpImage).name(), ptr);
   }
@@ -75,7 +75,7 @@ SEXP thresholding(SEXP image, double thres, std::string type) {
     throw std::range_error("Unknown thresholding type.");
   }
   
-  Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(bin), true);
+  Rcpp::XPtr<vpImage> ptr(new vpImage(bin), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpImage).name(), ptr);
 }
@@ -109,7 +109,7 @@ SEXP blend(SEXP image1, SEXP image2, std::string operation) {
     throw std::range_error("This operation is not supported.");
   }
   
-  Rcpp::XPtr<vpImage> ptr(new vpImage::vpImage(res), true);
+  Rcpp::XPtr<vpImage> ptr(new vpImage(res), true);
   Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
   return maker (typeid(vpImage).name(), ptr);
 }
