@@ -56,7 +56,7 @@ readImg <- function(filename) {
 #' img <- readImg(filename)
 #' writeImg("test_img.png", img)
 writeImg <- function(filename, image) {
-  `_readImg`(normalizePath(filename), image)
+  `_writeImg`(normalizePath(filename), image)
 }
 
 # ------
