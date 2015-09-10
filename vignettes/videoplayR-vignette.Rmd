@@ -442,7 +442,7 @@ imshow(getFrame(vid2, 125))
 ```
 
 ```{r}
-bg <- backgrounder(vid2, n = 100, type = "median", color = TRUE)
+bg <- backgrounder(vid2, n = 100, method = "median", color = TRUE)
 imshow(bg)
 ```
 
