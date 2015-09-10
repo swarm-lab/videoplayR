@@ -170,9 +170,17 @@ Rcpp::DataFrame blobDetector(SEXP image) {
     id[i] = i + 1;
     x[i] = ell.center.x;
     y[i] = -ell.center.y + o->dim[0];
-    alpha[i] = -ell.angle - 90;
-    major[i] = ell.size.height;
-    minor[i] = ell.size.width;
+    
+    if (ell.size.height > ell.size.width) {
+      alpha[i] = -ell.angle - 90;
+      major[i] = ell.size.height;
+      minor[i] = ell.size.width;
+    } else {
+      alpha[i] = -ell.angle;
+      major[i] = ell.size.width;
+      minor[i] = ell.size.height;
+    }
+    
     area[i] = cv::contourArea(contours[i]); 
   }
   
