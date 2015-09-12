@@ -95,7 +95,7 @@ Then, install OpenCV 3.0 by simply typing the following command line in the
 terminal:
 
 ```{bash, eval=FALSE}
-brew install opencv3
+brew install opencv3 --force
 ```
 
 **- MacPorts -**
