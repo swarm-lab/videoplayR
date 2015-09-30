@@ -25,11 +25,12 @@ reuse in a different session.
 }
 \examples{
 filename <- system.file("sample_vid/SampleVideo_1080x720_5mb.mp4", package = "videoplayR")
-vid <- readVideo(filename)
+vid <- readVid(filename)
 frame <- getFrame(vid, 1)
 imshow(frame)
 }
 \seealso{
-\code{\link{readImg}}, \code{\link{getFrame}}, \code{\link{vpVideo}}
+\code{\link{readImg}}, \code{\link{readStream}}, \code{\link{getFrame}},
+\code{\link{vpVideo}}
 }
 

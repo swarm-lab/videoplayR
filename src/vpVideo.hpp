@@ -2,6 +2,7 @@ class vpVideo {
 public:
   vpVideo(std::string filename);
   void setFrame(int n);
+  void release();
   cv::Mat frame;
   int length;
   int fps;
@@ -31,3 +32,8 @@ void vpVideo::setFrame(int n) {
   this->inputVideo.set(CV_CAP_PROP_POS_FRAMES, n);
   this->inputVideo >> this->frame;
 }
+
+void vpVideo::release() {
+  this->inputVideo.release();
+}
+

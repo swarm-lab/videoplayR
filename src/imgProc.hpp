@@ -199,11 +199,3 @@ Rcpp::DataFrame blobDetector(SEXP image) {
 
 
 
-
-
-
-
-
-
-
-

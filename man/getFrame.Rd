@@ -26,7 +26,7 @@ reuse in a different session.
 }
 \examples{
 filename <- system.file("sample_vid/SampleVideo_1080x720_5mb.mp4", package = "videoplayR")
-vid <- readVideo(filename)
+vid <- readVid(filename)
 frame <- getFrame(vid, 1)
 imshow(frame)
 }

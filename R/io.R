@@ -75,11 +75,12 @@ writeImg <- function(filename, image) {
 #' persistent object, but a pointer to a C++ object that cannot be saved for 
 #' reuse in a different session.
 #' 
-#' @seealso \code{\link{readImg}}, \code{\link{getFrame}}, \code{\link{vpVideo}}
+#' @seealso \code{\link{readImg}}, \code{\link{readStream}}, \code{\link{getFrame}}, 
+#' \code{\link{vpVideo}}
 #' 
 #' @examples
 #' filename <- system.file("sample_vid/SampleVideo_1080x720_5mb.mp4", package = "videoplayR")
-#' vid <- readVideo(filename)
+#' vid <- readVid(filename)
 #' frame <- getFrame(vid, 1)
 #' imshow(frame)
 readVid <- function(filename) {
@@ -106,10 +107,86 @@ readVid <- function(filename) {
 #' 
 #' @examples
 #' filename <- system.file("sample_vid/SampleVideo_1080x720_5mb.mp4", package = "videoplayR")
-#' vid <- readVideo(filename)
+#' vid <- readVid(filename)
 #' frame <- getFrame(vid, 1)
 #' imshow(frame)
 "getFrame"
+
+# ------
+#' Capture video stream from camera
+#' 
+#' This function captures a video stream from a camera and return a vpVideo 
+#' object that can be manipulated using the \code{\link{videoplayR}} image and 
+#' video manipulation toolbox. This function should support most webcams and 
+#' other cameras supported by \href{http://opencv.org/}{OpenCV}.
+#' 
+#' @param cam The camera id number (default: 0).
+#' 
+#' @return This function returns a vpVideo object.
+#' 
+#' @details The vpStream object created by the \code{readStream} function is not 
+#' a persistent object, but a pointer to a C++ object that cannot be saved for 
+#' reuse in a different session.
+#' 
+#' @seealso \code{\link{release}}, \code{\link{readImg}}, \code{\link{readVideo}}, 
+#' \code{\link{nextFrame}}, \code{\link{vpStream}}
+#' 
+#' @examples
+#' stream <- readStream(0)
+#' frame <- nextFrame(stream)
+#' imshow(frame)
+#' release(stream)
+"readStream"
+
+# ------
+#' Grab the next frame from a video stream
+#' 
+#' This function grabs the next available frame from a vpStream object and 
+#' returns a vpImage object that can be manipulated using the 
+#' \code{\link{videoplayR}} image and video manipulation toolbox.
+#' 
+#' @param stream The vpStream object from which the frame should be grabbed. 
+#' 
+#' @return This function returns a vpImage object.
+#' 
+#' @details The vpImage object created by the \code{grabFrame} function is not a 
+#' persistent object, but a pointer to a C++ object that cannot be saved for 
+#' reuse in a different session.
+#' 
+#' @seealso \code{\link{readStream}}, \code{\link{release}}, \code{\link{vpStream}}, 
+#' \code{\link{vpImage}}
+#' 
+#' @examples
+#' stream <- readStream(0)
+#' frame <- nextFrame(stream)
+#' imshow(frame)
+#' release(stream)
+"nextFrame"
+
+# ------
+#' Release a video stream
+#' 
+#' This function releases (i.e. closes) the video stream contained in a vpVideo 
+#' or a vpStream object. 
+#' 
+#' @param stream The vpVideo or vpStream object to release. 
+#' 
+#' @return This function does not return anything.
+#' 
+#' @details Only the video stream contained in the vpVideo or vpStream object is
+#' released (i.e closed). The vpVideo or vpStream object will remain in the 
+#' session environment until removed by the user. Once released, the video 
+#' stream cannot be accessed anymore unless a new vpVideo or vpStream object is 
+#' created.
+#' 
+#' @seealso \code{\link{readStream}}, \code{\link{vpStream}}, \code{\link{vpVideo}}
+#' 
+#' @examples
+#' stream <- readStream(0)
+#' frame <- nextFrame(stream)
+#' imshow(frame)
+#' release(stream)
+"release"
 
 # ------
 #' Convert a vpImage object to a matrix or an array

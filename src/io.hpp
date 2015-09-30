@@ -27,6 +27,36 @@ SEXP _readVid(std::string filename) {
   return maker (typeid(vpVideo).name(), ptr);
 }
 
+SEXP readStream(int cam) {
+  Rcpp::XPtr<vpStream> ptr(new vpStream(cam), true);
+  Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
+  return maker (typeid(vpStream).name(), ptr);
+}
+
+void release(SEXP stream) {
+  std::string rtypenameStream("Rcpp_vpStream");
+  std::string rtypenameVideo("Rcpp_vpVideo");
+  Rcpp::S4 s4obj(stream);
+  
+  if (!s4obj.is(rtypenameStream.c_str()) &&  !s4obj.is(rtypenameVideo.c_str())) {
+    Rf_error((std::string("object is not of the type ")+rtypenameStream+std::string(" or ")+rtypenameVideo).c_str());
+  }
+  
+  Rcpp::Environment env(s4obj);
+  
+  if (s4obj.is(rtypenameStream.c_str())) {
+    Rcpp::XPtr<vpStream> xptr( env.get(".pointer") );
+    vpStream *o = static_cast<vpStream*> (R_ExternalPtrAddr(xptr));
+    o->release();
+  } else {
+    Rcpp::XPtr<vpVideo> xptr( env.get(".pointer") );
+    vpVideo *o = static_cast<vpVideo*> (R_ExternalPtrAddr(xptr));
+    o->release();
+  }
+  
+  Rcpp::Rcout << "Video stream terminated." << "\n";
+}
+
 SEXP getFrame(SEXP video, int frame) {
   std::string rtypename("Rcpp_vpVideo");
   Rcpp::S4 s4obj(video);
@@ -40,6 +70,26 @@ SEXP getFrame(SEXP video, int frame) {
   vpVideo *o = static_cast<vpVideo*> (R_ExternalPtrAddr(xptr));
   
   o->setFrame(frame);
+  cv::Mat image = o->frame;
+  
+  Rcpp::XPtr<vpImage> ptr(new vpImage(image), true);
+  Rcpp::Function maker = Rcpp::Environment::Rcpp_namespace()["cpp_object_maker"];
+  return maker (typeid(vpImage).name(), ptr);
+}
+
+SEXP nextFrame(SEXP stream) {
+  std::string rtypename("Rcpp_vpStream");
+  Rcpp::S4 s4obj(stream);
+  
+  if (!s4obj.is(rtypename.c_str())) {
+    Rf_error((std::string("object is not of the type ")+rtypename).c_str());
+  }
+  
+  Rcpp::Environment env(s4obj);
+  Rcpp::XPtr<vpStream> xptr( env.get(".pointer") );
+  vpStream *o = static_cast<vpStream*> (R_ExternalPtrAddr(xptr));
+  
+  o->nextFrame();
   cv::Mat image = o->frame;
   
   Rcpp::XPtr<vpImage> ptr(new vpImage(image), true);
