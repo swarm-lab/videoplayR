@@ -4,14 +4,16 @@ videoplayR
 `videoplayR` is an R package that provides a few functions (for now) to manipulate 
 video and image files with R. It requires the installation of OpenCV. 
 
+**>>>Package vignette: [http://rpubs.com/sjmgarnier/videoplayR](http://rpubs.com/sjmgarnier/videoplayR)<<<**
+
 ### Package overview
 
 This package uses the [OpenCV C++ library](http://opencv.org/) to provide R users 
 with some basic functions to read and manipulate video and image files. As of now, 
 `videoplayR` can:
 
-* Load can access video and image files. 
-* Grab frames from videos and convert them to images.
+* Load can access video and image files, as well as camera streams. 
+* Grab frames from videos and camera streams, and convert them to images.
 * Convert images to R matrices and arrays.
 * Convert R matrices and arrays to images. 
 * Display images in the default R graphics device. 
