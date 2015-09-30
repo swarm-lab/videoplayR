@@ -4,7 +4,7 @@ videoplayR
 `videoplayR` is an R package that provides a few functions (for now) to manipulate 
 video and image files with R. It requires the installation of OpenCV. 
 
-**>>>Package vignette: [http://rpubs.com/sjmgarnier/videoplayR](http://rpubs.com/sjmgarnier/videoplayR)<<<**
+**>>> Package vignette: [http://rpubs.com/sjmgarnier/videoplayR](http://rpubs.com/sjmgarnier/videoplayR) <<<**
 
 ### Package overview
 
