@@ -13,8 +13,8 @@ some basic functions to read and manipulate image and video files.
 \tabular{ll}{
  Package: \tab videoplayR\cr
  Type: \tab Package\cr
- Version: \tab 0.3\cr
- Date: \tab 2015-09-04\cr
+ Version: \tab 0.3.1\cr
+ Date: \tab 2015-09-30\cr
  License: \tab GPL-3\cr
 }
 }
