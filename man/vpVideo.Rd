@@ -20,7 +20,7 @@ A vpVideo object is not a persistent object, but a pointer to a C++
 object that cannot be saved for reuse in a different session.
 }
 \seealso{
-\code{\link{readVid}}, \code{\link{getFrame}}
+\code{\link{readVid}}, \code{\link{getFrame}}, \code{\link{release}}
 }
 \keyword{datasets}
 
