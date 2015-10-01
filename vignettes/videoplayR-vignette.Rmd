@@ -91,11 +91,12 @@ instance) and run the following command line:
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-Then, install OpenCV 3.0 by simply typing the following command line in the 
+Then, install OpenCV 3.0 by simply typing the following command lines in the 
 terminal:
 
 ```{bash, eval=FALSE}
-brew install opencv3
+brew tap homebrew/science
+brew install pkg-config opencv3
 brew link opencv3 --force
 ```
 
@@ -219,7 +220,7 @@ lines(c(1, img1$dim[2]), c(img1$dim[1], 1), col = "red", lwd = 8)
 
 As its name suggests, `videoplayR` can also read videos. It cannot (yet) play
 them, but it can read video frames and import them as `vpImage` objects. Videos
-are accessed through special object class: `vpVideo`. A `vpVideo` object is a 
+are accessed through a special object class: `vpVideo`. A `vpVideo` object is a 
 wrapper around an OpenCV video reader object and it can be created using the 
 `readVid` function. 
 
@@ -246,6 +247,47 @@ img2 <- getFrame(vid1, 100)
 imshow(img2)
 ```
 
+## From your webcam
+
+Since version 0.3.1, `videoplayR` can also access the video stream from cameras
+connected to your computer, and import frames as `vpImage` objects. Camera 
+streams are accessed through a special object class: `vpStream`. A `vpStream` 
+object is a wrapper around an OpenCV video reader object and it can be created 
+using the `readStream` function. In the following example, we will open a stream
+from your default webcam.
+
+```{r}
+stream1 <- readStream(0)  # 0 is the index of your default webcam. Use higher 
+                          # numbers to access other cameras connected to your 
+                          # computer. 
+```
+
+A `vpStream` object has one attribute that represents the dimesions of the video 
+stream (width and heigth in pixels). You can access this attribute as follows. 
+
+```{r}
+stream1$dim
+```
+
+You can grab the current frame in the stream as a `vpImage` object by using the 
+`nextFrame` function as follows. 
+
+```{r, echo=FALSE}
+Sys.sleep(1)
+```
+
+```{r, fig.height=4.5, cache=TRUE}
+img3 <- nextFrame(stream1)
+imshow(img3)
+```
+
+Finally, when you are done using your camera, you can release (or close) the 
+stream using the `release` function as follows. 
+
+```{r}
+release(stream1)
+```
+
 ## From R matrices and arrays
 
 Fundamentally, a digital image is nothing more than a matrix of numbers. Therefore
@@ -260,8 +302,8 @@ that I convert to a `vpImage` object and then display using the `imshow` functio
 gradient <- function(x1, x2) { x1 + x2 }
 x <- 0:127
 mat1 <- gradient(outer(rep(1, length(x)), x), x)
-img3 <- r2img(mat1)
-imshow(img3)
+img4 <- r2img(mat1)
+imshow(img4)
 ```
 
 On the other hand, the `img2r` function takes a `vpImage` object and converts it 
@@ -273,8 +315,8 @@ then convert it back to a `vpImage` object, like in the example below.
 ```{r, fig.height=4.5}
 mat2 <- img2r(img1)
 mat2[80:640, 250:650, ] <- 255
-img4 <- r2img(mat2)
-imshow(img4)
+img5 <- r2img(mat2)
+imshow(img5)
 ```
 
 Note that a number of operations can be applied to a `vpImage` object directly 
@@ -465,8 +507,8 @@ First, I load and display the test image.
 
 ```{r}
 filename <- system.file("sample_img/dots.jpg", package = "videoplayR")
-img5 <- readImg(filename)
-imshow(img5)
+img6 <- readImg(filename)
+imshow(img6)
 ```
 
 The objects in this image are darker than the background. The first step for letting 
@@ -475,7 +517,7 @@ objects to detect appearing white (value of one) and the background black (value
 of zero). 
 
 ```{r}
-bin3 <- thresholding(img5, 200, "inverted")
+bin3 <- thresholding(img6, 200, "inverted")
 imshow(bin3)
 ```
 
@@ -503,7 +545,7 @@ showing the minor and major axes of each object.
 
 ```{r, message=FALSE}
 require(plotrix)
-imshow(img5)
+imshow(img6)
 points(y ~ x, data = blobs, col = "red", pch = 20)
 draw.ellipse(blobs$x, blobs$y, blobs$major / 2, blobs$minor / 2, blobs$alpha, border = "red")
 ```

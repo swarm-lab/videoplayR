@@ -14,3 +14,4 @@ tokeep
 *.o
 inst/doc
 vignettes/rsconnect
+vignettes/videoplayR-vignette_cache
