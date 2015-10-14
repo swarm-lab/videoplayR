@@ -127,7 +127,7 @@ sudo apt-get install libopencv-dev
 **- yum based systems (Red Hat, Fedora, etc.) -**
 
 ```{bash, eval = FALSE}
-sudo yum install libopencv-devel
+sudo yum install opencv-devel
 ```
 
 **- Arch Linux -**
