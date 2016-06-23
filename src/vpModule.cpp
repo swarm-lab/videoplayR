@@ -19,9 +19,16 @@ RCPP_MODULE(vp) {
     .field_readonly("fps", &vpVideo::fps, "Returns the framerate of the video.")
     .field_readonly("dim", &vpVideo::dim, "Returns the dimensions in pixels of the video.")
   ;
-  
+
   Rcpp::class_<vpStream>("vpStream")
     .field_readonly("dim", &vpStream::dim, "Returns the dimensions in pixels of the video stream.")
+    .field_readonly("brightness", &vpStream::brightness, "Returns the brightness setting of the video stream.")
+    .field_readonly("contrast", &vpStream::contrast, "Returns the contrast setting of the video stream.")
+    .field_readonly("saturation", &vpStream::saturation, "Returns the saturation setting of the video stream.")
+    .field_readonly("hue", &vpStream::hue, "Returns the hue setting of the video stream.")
+    .field_readonly("gain", &vpStream::gain, "Returns the gain setting of the video stream.")
+    .field_readonly("exposure", &vpStream::exposure, "Returns the exposure setting of the video stream.")
+    .method("set", &vpStream::set, "Set value of a video stream setting.")
   ;
   
   Rcpp::function("_readImg", &_readImg, Rcpp::List::create(Rcpp::_["filename"]), "Load image file in memory.");
