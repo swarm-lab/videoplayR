@@ -1,3 +1,17 @@
+IMPORTANT NOTICE
+=========
+
+I have stopped developing `videoplayR`. Instead, I have created two libraries to replace it: 
+
+1. [`ROpenCVLite`](https://github.com/swarm-lab/ROpenCVLite): this library downloads, compiles, and installs OpenCV within the R library in a standardized location across Mac, Windows, and Linux. It doesn't provide any computer vision functions directly, but allows developers to create packages using OpenCV without having to worry about the platform of the end-user. 
+2. [`Rvision`](https://github.com/swarm-lab/Rvision): this library depends on `ROpenCVLite` and provides computer vision functions somewhat similar to the discontinued `videoplayR` package. 
+
+Besides making sure that OpenCV is installed in a standardized location across platforms, this new organization also allows updating `Rvision` frequently without having to recompile OpenCV every time, like it was happening with `videoplayR` (`ROpenCVLite` needs reinstalling only when a new release of OpenCV becomes available). 
+
+I recommend that you try out the two new packages instead (they should both install fine on Windows), and report bugs, feature requests, and comments on their respective repository. I don't have much time at the moment to push their development, but it'll be helpful to know what people have a need for when I get back to it. 
+
+---
+
 videoplayR
 =========
 
